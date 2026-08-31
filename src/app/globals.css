@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: theme("colors.stone.900");
+  background: theme("colors.stone.50");
+}
+
+::selection {
+  background: theme("colors.emerald.200");
+}
