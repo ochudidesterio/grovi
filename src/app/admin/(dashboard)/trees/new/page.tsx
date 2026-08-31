@@ -10,13 +10,13 @@ export default async function NewTreePage() {
     .order("common_name");
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="lg:max-w-[1500px]">
       <Link href="/admin/trees" className="text-sm text-stone-500 hover:text-stone-800">
         ← Back to trees
       </Link>
       <h1 className="mt-2 font-display text-3xl text-stone-900">Plant a tree</h1>
       <p className="mt-1 text-stone-500">
-        This form is the Phase 1 stand-in for the capture app — same write path, done by hand.
+        Capture GPS and a photo right from your phone — this is the field tool.
       </p>
 
       <PlantTreeForm species={species ?? []} />

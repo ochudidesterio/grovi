@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { TreeStatusBadge } from "@/components/Badge";
 
 export interface TreeRow {
@@ -14,9 +15,13 @@ export interface TreeRow {
   replantCount: number;
 }
 
+const PAGE_SIZE = 20;
+
 export function TreeTable({ rows }: { rows: TreeRow[] }) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "alive" | "dead">("all");
+  const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -30,6 +35,16 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
       return matchesQuery && matchesStatus;
     });
   }, [rows, query, statusFilter]);
+
+  // Searching/filtering can easily land you past the last page of the new
+  // result set — snap back to page 1 whenever the filters change.
+  useEffect(() => {
+    setPage(1);
+  }, [query, statusFilter]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const pageRows = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   return (
     <div>
@@ -74,8 +89,12 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-stone-100">
-            {filtered.map((r) => (
-              <tr key={r.id} className="hover:bg-stone-50">
+            {pageRows.map((r) => (
+              <tr
+                key={r.id}
+                onClick={() => router.push(`/admin/trees/${r.code}`)}
+                className="cursor-pointer hover:bg-stone-50"
+              >
                 <td className="px-5 py-3 font-medium text-stone-800">{r.code}</td>
                 <td className="px-5 py-3 text-stone-600">{r.species}</td>
                 <td className="px-5 py-3 text-stone-600">{r.guest}</td>
@@ -89,7 +108,11 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
                   </div>
                 </td>
                 <td className="px-5 py-3 text-right">
-                  <Link href={`/t/${r.code}`} className="text-emerald-800 hover:underline">
+                  <Link
+                    href={`/admin/trees/${r.code}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-emerald-800 hover:underline"
+                  >
                     View →
                   </Link>
                 </td>
@@ -104,6 +127,30 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
             )}
           </tbody>
         </table>
+
+        {pageCount > 1 && (
+          <div className="flex items-center justify-between border-t border-stone-100 px-5 py-3">
+            <p className="text-sm text-stone-400">
+              Page {currentPage} of {pageCount}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+              >
+                ← Previous
+              </button>
+              <button
+                onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                disabled={currentPage === pageCount}
+                className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

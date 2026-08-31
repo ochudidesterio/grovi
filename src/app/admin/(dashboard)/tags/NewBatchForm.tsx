@@ -54,7 +54,7 @@ export function NewBatchForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="mt-4 rounded-lg bg-emerald-800 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-900 disabled:opacity-60"
+        className="mt-4 w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-900 disabled:opacity-60 sm:w-auto"
       >
         {isPending ? "Generating…" : "Generate batch"}
       </button>

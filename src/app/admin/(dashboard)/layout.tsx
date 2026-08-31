@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { AdminNav } from "@/components/AdminNav";
 import { SignOutButton } from "@/components/SignOutButton";
+import { MobileHeader } from "@/components/MobileHeader";
 import Link from "next/link";
 
 export default async function DashboardLayout({
@@ -21,28 +22,30 @@ export default async function DashboardLayout({
   const property = Array.isArray(profile?.properties)
     ? profile?.properties[0]
     : profile?.properties;
+  const isSuperAdmin = profile?.role === "super_admin";
+  const displayName = profile?.full_name ?? user?.email ?? "";
 
   return (
     <div className="min-h-screen bg-stone-50 lg:flex">
-      <aside className="border-b border-stone-200 bg-white px-4 py-5 lg:w-64 lg:shrink-0 lg:border-b-0 lg:border-r lg:px-5 lg:py-8">
-        <div className="flex items-center justify-between lg:block">
-          <Link href="/admin" className="font-display text-xl text-emerald-900">
-            Grovi
-          </Link>
-          <p className="mt-1 hidden text-xs text-stone-400 lg:block">
-            {property?.name ?? "Admin"}
-          </p>
-          <div className="lg:hidden">
-            <SignOutButton />
-          </div>
-        </div>
+      <MobileHeader
+        isSuperAdmin={isSuperAdmin}
+        propertyName={property?.name ?? "Admin"}
+        displayName={displayName}
+        role={profile?.role?.replace("_", " ") ?? "staff"}
+      />
+
+      <aside className="hidden border-stone-200 bg-white lg:block lg:w-64 lg:shrink-0 lg:border-r lg:px-5 lg:py-8">
+        <Link href="/admin" className="font-display text-xl text-emerald-900">
+          Grovi
+        </Link>
+        <p className="mt-1 text-xs text-stone-400">{property?.name ?? "Admin"}</p>
+
         <div className="mt-6">
-          <AdminNav isSuperAdmin={profile?.role === "super_admin"} />
+          <AdminNav isSuperAdmin={isSuperAdmin} />
         </div>
-        <div className="mt-8 hidden border-t border-stone-100 pt-4 lg:block">
-          <p className="text-sm font-medium text-stone-700">
-            {profile?.full_name ?? user?.email}
-          </p>
+
+        <div className="mt-8 border-t border-stone-100 pt-4">
+          <p className="text-sm font-medium text-stone-700">{displayName}</p>
           <p className="text-xs capitalize text-stone-400">{profile?.role?.replace("_", " ")}</p>
           <div className="mt-2">
             <SignOutButton />

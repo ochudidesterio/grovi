@@ -2,6 +2,7 @@ import { createPublicClient } from "@/lib/supabase/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { ZoomableImage } from "@/components/ZoomableImage";
 
 // Tree data changes constantly (new timeline entries, replacements) — never
 // let Next cache the underlying Supabase fetch, or edits go invisible until
@@ -172,31 +173,30 @@ export default async function TreePage({ params }: Props) {
         {tree.speciesSignificance && (
           <p className="mt-8 leading-relaxed text-stone-600">{tree.speciesSignificance}</p>
         )}
+      </div>
 
-        <section className="mt-14">
-          <h2 className="font-display text-2xl text-stone-900">Growth timeline</h2>
-          <ol className="mt-6 space-y-8 border-l border-stone-200 pl-6">
-            {tree.timeline.map((entry) => (
-              <li key={entry.id} className="relative">
-                <span className="absolute -left-[31px] flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs ring-4 ring-stone-50">
-                  {TIMELINE_ICON[entry.type] ?? "•"}
-                </span>
-                <p className="text-xs uppercase tracking-wide text-stone-400">
-                  {TIMELINE_LABEL[entry.type] ?? entry.type} · {entry.captured_at}
-                </p>
-                {entry.note && <p className="mt-1.5 text-stone-700">{entry.note}</p>}
-                {entry.photo_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={entry.photo_url}
-                    alt=""
-                    className="mt-3 aspect-[4/3] w-full max-w-md rounded-xl object-cover shadow-card"
-                  />
-                )}
-              </li>
-            ))}
-          </ol>
-        </section>
+      <div className="mx-auto mt-14 px-6 lg:max-w-[1500px]">
+        <h2 className="font-display text-2xl text-stone-900">Growth timeline</h2>
+        <ol className="mt-6 flex flex-wrap gap-6">
+          {tree.timeline.map((entry) => (
+            <li
+              key={entry.id}
+              className="w-full max-w-sm flex-1 rounded-xl border border-stone-200 bg-white p-4 shadow-card"
+            >
+              <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-stone-400">
+                <span>{TIMELINE_ICON[entry.type] ?? "•"}</span>
+                {TIMELINE_LABEL[entry.type] ?? entry.type} · {entry.captured_at}
+              </p>
+              {entry.note && <p className="mt-1.5 text-stone-700">{entry.note}</p>}
+              {entry.photo_url && (
+                <ZoomableImage
+                  src={entry.photo_url}
+                  className="mt-3 aspect-[4/3] w-full rounded-xl object-cover"
+                />
+              )}
+            </li>
+          ))}
+        </ol>
       </div>
     </main>
   );

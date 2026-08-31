@@ -36,7 +36,7 @@ export default async function AdminTreesPage() {
         </div>
         <Link
           href="/admin/trees/new"
-          className="rounded-lg bg-emerald-800 px-4 py-2.5 text-sm font-medium text-white shadow-card hover:bg-emerald-900"
+          className="w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-emerald-900 sm:w-auto"
         >
           + Plant a tree
         </Link>

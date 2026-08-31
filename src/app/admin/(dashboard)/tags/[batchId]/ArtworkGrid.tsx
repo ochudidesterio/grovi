@@ -11,14 +11,14 @@ export function ArtworkGrid({
 }) {
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between print:hidden">
+      <div className="mb-6 flex flex-col gap-3 print:hidden sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-stone-500">
           {tags.length} tags — each QR encodes that tree&apos;s public page. Print this page
           (or save as PDF) to send to the engraving supplier.
         </p>
         <button
           onClick={() => window.print()}
-          className="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-900"
+          className="w-full shrink-0 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-900 sm:w-auto"
         >
           Print / Save as PDF
         </button>

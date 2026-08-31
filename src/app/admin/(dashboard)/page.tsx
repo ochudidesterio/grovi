@@ -51,7 +51,7 @@ export default async function AdminDashboard() {
         </div>
         <Link
           href="/admin/trees/new"
-          className="rounded-lg bg-emerald-800 px-4 py-2.5 text-sm font-medium text-white shadow-card hover:bg-emerald-900"
+          className="w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-emerald-900 sm:w-auto"
         >
           + Plant a tree
         </Link>
@@ -90,7 +90,7 @@ export default async function AdminDashboard() {
                 return (
                   <li key={t.id}>
                     <Link
-                      href={`/t/${tag?.code}`}
+                      href={`/admin/trees/${tag?.code}`}
                       className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-stone-50"
                     >
                       <div>

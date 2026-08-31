@@ -52,8 +52,8 @@ export default async function TagsPage() {
       )}
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_380px]">
-        <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card">
-          <table className="w-full text-left text-sm">
+        <div className="overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-card">
+          <table className="w-full min-w-[480px] text-left text-sm">
             <thead>
               <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-400">
                 <th className="px-5 py-3 font-medium">Prefix</th>

@@ -27,19 +27,22 @@ export default async function PropertiesPage() {
         <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card">
           <ul className="divide-y divide-stone-100">
             {properties?.map((p) => (
-              <li key={p.id} className="flex items-center justify-between gap-4 px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <span
-                    className="h-8 w-8 shrink-0 rounded-full"
-                    style={{ backgroundColor: p.brand_color ?? "#065f46" }}
-                  />
-                  <div>
-                    <p className="text-sm font-medium text-stone-800">{p.name}</p>
-                    <p className="text-xs text-stone-400">/{p.slug}</p>
+              <li key={p.id}>
+                <Link
+                  href={`/p/${p.slug}`}
+                  className="flex items-center justify-between gap-4 px-5 py-4 hover:bg-stone-50"
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span
+                      className="h-8 w-8 shrink-0 rounded-full"
+                      style={{ backgroundColor: p.brand_color ?? "#065f46" }}
+                    />
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-stone-800">{p.name}</p>
+                      <p className="truncate text-xs text-stone-400">/{p.slug}</p>
+                    </div>
                   </div>
-                </div>
-                <Link href={`/p/${p.slug}`} className="text-sm text-emerald-800 hover:underline">
-                  View grove →
+                  <span className="shrink-0 text-sm text-emerald-800">View grove →</span>
                 </Link>
               </li>
             ))}

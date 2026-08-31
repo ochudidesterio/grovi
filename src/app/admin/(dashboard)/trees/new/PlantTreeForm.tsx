@@ -2,6 +2,8 @@
 
 import { useState, useTransition } from "react";
 import { plantTree } from "./actions";
+import { LocationCapture } from "@/components/LocationCapture";
+import { TagPicker } from "@/components/TagPicker";
 
 const inputClass =
   "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
@@ -33,7 +35,7 @@ export function PlantTreeForm({ species }: { species: { id: string; common_name:
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
             <label className={labelClass}>Tag code</label>
-            <input name="tag_code" placeholder="DEMO-0003" className={inputClass} required />
+            <TagPicker status="unassigned" />
           </div>
           <div>
             <label className={labelClass}>Species</label>
@@ -93,15 +95,8 @@ export function PlantTreeForm({ species }: { species: { id: string; common_name:
 
       <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-card">
         <h2 className="font-display text-lg text-stone-900">Location &amp; photo</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <div>
-            <label className={labelClass}>GPS latitude</label>
-            <input name="lat" type="number" step="any" className={inputClass} />
-          </div>
-          <div>
-            <label className={labelClass}>GPS longitude</label>
-            <input name="lng" type="number" step="any" className={inputClass} />
-          </div>
+        <div className="mt-4">
+          <LocationCapture />
         </div>
         <div className="mt-4">
           <label className={labelClass}>Planting photo</label>
@@ -109,6 +104,7 @@ export function PlantTreeForm({ species }: { species: { id: string; common_name:
             name="photo"
             type="file"
             accept="image/*"
+            capture="environment"
             className="mt-1.5 w-full rounded-lg border border-dashed border-stone-300 px-3.5 py-3 text-sm text-stone-500 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-emerald-800 hover:file:bg-emerald-100"
           />
         </div>
@@ -118,7 +114,7 @@ export function PlantTreeForm({ species }: { species: { id: string; common_name:
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-lg bg-emerald-800 px-5 py-2.5 text-sm font-medium text-white shadow-card hover:bg-emerald-900 disabled:opacity-60"
+          className="w-full rounded-lg bg-emerald-800 px-5 py-2.5 text-sm font-medium text-white shadow-card hover:bg-emerald-900 disabled:opacity-60 sm:w-auto"
         >
           {isPending ? "Planting…" : "Plant tree"}
         </button>
