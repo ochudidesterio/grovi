@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-inter: "Inter Variable", system-ui, sans-serif;
+  --font-fraunces: "Fraunces Variable", Georgia, serif;
+}
+
 body {
   color: theme("colors.stone.900");
   background: theme("colors.stone.50");

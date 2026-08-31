@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+// Bundled locally (not next/font/google) — the build environment can't
+// reliably reach fonts.gstatic.com, which made `next build` flaky/failing.
+// Fontsource ships the actual font files as npm-installed static assets,
+// so the build never depends on network access. Same reasoning as the
+// capture app's local font assets.
+import "@fontsource-variable/inter";
+import "@fontsource-variable/fraunces/opsz.css";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  axes: ["opsz"],
-});
 
 export const metadata: Metadata = {
   title: "Grovi",
@@ -20,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
+    <html lang="en">
       <body className="font-sans antialiased">{children}</body>
     </html>
   );
