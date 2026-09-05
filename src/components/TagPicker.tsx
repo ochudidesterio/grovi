@@ -11,8 +11,14 @@ const inputClass =
  * tags instead of hunting for a code by memory, while manual typing still
  * works as a fallback (no live list, or a code that isn't in it yet).
  */
-export function TagPicker({ status = "unassigned" }: { status?: "unassigned" | "assigned" }) {
-  const [query, setQuery] = useState("");
+export function TagPicker({
+  status = "unassigned",
+  initialValue,
+}: {
+  status?: "unassigned" | "assigned";
+  initialValue?: string;
+}) {
+  const [query, setQuery] = useState(initialValue ?? "");
   const [open, setOpen] = useState(false);
   const [tags, setTags] = useState<string[] | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);

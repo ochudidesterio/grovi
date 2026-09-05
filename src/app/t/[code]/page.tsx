@@ -1,6 +1,6 @@
-import { createPublicClient } from "@/lib/supabase/server";
+import { createClient, createPublicClient } from "@/lib/supabase/server";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ZoomableImage } from "@/components/ZoomableImage";
 
@@ -27,7 +27,31 @@ const TIMELINE_ICON: Record<string, string> = {
   note: "📝",
 };
 
-async function getTree(code: string) {
+type TreeLookup =
+  | { kind: "not_found" }
+  | { kind: "unassigned" }
+  | {
+      kind: "tree";
+      code: string;
+      propertyName: string | null;
+      propertySlug: string | null;
+      speciesName: string | null;
+      speciesSignificance: string | null;
+      planterName: string | null;
+      planterCountry: string | null;
+      dedication: string | null;
+      plantingDate: string;
+      status: "alive" | "dead";
+      replantCount: number;
+      timeline: { id: string; type: string; photo_url: string | null; note: string | null; captured_at: string }[];
+    };
+
+// This is also the QR code's landing point (see the artwork generator in
+// /admin/tags/[batchId]) — the same physical tag gets scanned both before
+// and after planting, so this one route has to make the right call either
+// way: an already-planted tag shows the public page; an unplanted one hands
+// staff straight into the planting form instead of just 404ing.
+async function getTree(code: string): Promise<TreeLookup> {
   const supabase = createPublicClient();
 
   const { data: tag } = await supabase
@@ -46,7 +70,8 @@ async function getTree(code: string) {
     .eq("code", code)
     .maybeSingle();
 
-  if (!tag || !tag.trees) return null;
+  if (!tag) return { kind: "not_found" };
+  if (!tag.trees) return { kind: "unassigned" };
 
   const tree = Array.isArray(tag.trees) ? tag.trees[0] : tag.trees;
   const guest = Array.isArray(tree.guests) ? tree.guests[0] : tree.guests;
@@ -66,6 +91,7 @@ async function getTree(code: string) {
     .order("captured_at", { ascending: true });
 
   return {
+    kind: "tree",
     code: tag.code,
     propertyName: property?.name ?? null,
     propertySlug: property?.slug ?? null,
@@ -82,19 +108,24 @@ async function getTree(code: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const tree = await getTree(params.code);
-  if (!tree) return { title: "Tree not found — Grovi" };
+  const result = await getTree(params.code);
+  if (result.kind !== "tree") {
+    return {
+      title:
+        result.kind === "unassigned" ? `Tag ${params.code} — Grovi` : "Tree not found — Grovi",
+    };
+  }
 
-  const title = tree.planterName
-    ? `${tree.planterName}'s tree — ${params.code}`
+  const title = result.planterName
+    ? `${result.planterName}'s tree — ${params.code}`
     : `Tree ${params.code} — Grovi`;
 
-  const heroPhoto = tree.timeline.find((e) => e.photo_url)?.photo_url;
+  const heroPhoto = result.timeline.find((e) => e.photo_url)?.photo_url;
 
   return {
     title,
-    description: tree.speciesName
-      ? `A ${tree.speciesName}, planted ${tree.plantingDate}. Follow its growth on Grovi.`
+    description: result.speciesName
+      ? `A ${result.speciesName}, planted ${result.plantingDate}. Follow its growth on Grovi.`
       : "A tree planted, and a record that lasts.",
     openGraph: {
       title,
@@ -104,9 +135,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function TreePage({ params }: Props) {
-  const tree = await getTree(params.code);
-  if (!tree) notFound();
+  const result = await getTree(params.code);
 
+  if (result.kind === "not_found") notFound();
+
+  if (result.kind === "unassigned") {
+    // Only staff can actually plant — if this browser already has a staff
+    // session, skip the prompt and go straight to the pre-filled form.
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const plantUrl = `/admin/trees/new?tag=${encodeURIComponent(params.code)}`;
+    if (user) redirect(plantUrl);
+
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center bg-stone-50 px-6 text-center">
+        <p className="text-sm uppercase tracking-wide text-stone-400">{params.code}</p>
+        <h1 className="mt-2 font-display text-3xl text-stone-900">
+          This tree hasn&apos;t been planted yet
+        </h1>
+        <p className="mt-2 max-w-sm text-stone-500">
+          Check back once a guest has planted a tree against this tag.
+        </p>
+        <Link
+          href={`/admin/login?next=${encodeURIComponent(plantUrl)}`}
+          className="mt-6 text-sm text-emerald-800 hover:underline"
+        >
+          Staff? Sign in to plant this tree →
+        </Link>
+      </main>
+    );
+  }
+
+  const tree = result;
   const heroPhoto = tree.timeline.find((e) => e.photo_url)?.photo_url;
 
   return (

@@ -2,7 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import { PlantTreeForm } from "./PlantTreeForm";
 import Link from "next/link";
 
-export default async function NewTreePage() {
+interface Props {
+  searchParams: { tag?: string };
+}
+
+export default async function NewTreePage({ searchParams }: Props) {
   const supabase = createClient();
   const { data: species } = await supabase
     .from("species")
@@ -19,7 +23,7 @@ export default async function NewTreePage() {
         Capture GPS and a photo right from your phone — this is the field tool.
       </p>
 
-      <PlantTreeForm species={species ?? []} />
+      <PlantTreeForm species={species ?? []} initialTagCode={searchParams.tag} />
     </div>
   );
 }

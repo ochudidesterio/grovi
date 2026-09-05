@@ -1,13 +1,16 @@
 "use client";
 
 import { QRCodeSVG } from "qrcode.react";
+import { TagStatusBadge } from "@/components/Badge";
 
 export function ArtworkGrid({
   tags,
   baseUrl,
+  printLabel = "Print / Save as PDF",
 }: {
-  tags: { code: string }[];
+  tags: { code: string; status?: "assigned" | "unassigned" }[];
   baseUrl: string;
+  printLabel?: string;
 }) {
   return (
     <div>
@@ -20,7 +23,7 @@ export function ArtworkGrid({
           onClick={() => window.print()}
           className="w-full shrink-0 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-900 sm:w-auto"
         >
-          Print / Save as PDF
+          {printLabel}
         </button>
       </div>
 
@@ -32,6 +35,11 @@ export function ArtworkGrid({
           >
             <QRCodeSVG value={`${baseUrl}/t/${t.code}`} size={120} />
             <p className="font-mono text-sm font-medium text-stone-800">{t.code}</p>
+            {t.status && (
+              <div className="print:hidden">
+                <TagStatusBadge status={t.status} />
+              </div>
+            )}
           </div>
         ))}
       </div>

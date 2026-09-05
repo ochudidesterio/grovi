@@ -26,7 +26,11 @@ function LoginForm() {
       setError(error.message);
       return;
     }
-    router.push("/admin");
+    // Only ever redirect within /admin — `next` is attacker-controllable
+    // (it's a query param), so an arbitrary URL here would be an open
+    // redirect off a real login form.
+    const next = searchParams.get("next");
+    router.push(next && next.startsWith("/admin") ? next : "/admin");
     router.refresh();
   }
 

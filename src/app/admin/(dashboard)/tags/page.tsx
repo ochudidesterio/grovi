@@ -1,5 +1,6 @@
 import { createClient, getCurrentProfile } from "@/lib/supabase/server";
 import { NewBatchForm } from "./NewBatchForm";
+import { ArtworkGrid } from "@/components/ArtworkGrid";
 import { StatCard } from "@/components/StatCard";
 import Link from "next/link";
 
@@ -15,23 +16,34 @@ export default async function TagsPage() {
 
   const supabase = createClient();
 
-  const [{ count: unassignedCount }, { count: assignedCount }, { data: batches }] = await Promise.all([
-    supabase
-      .from("tags")
-      .select("*", { count: "exact", head: true })
-      .eq("property_id", profile.property_id)
-      .eq("status", "unassigned"),
-    supabase
-      .from("tags")
-      .select("*", { count: "exact", head: true })
-      .eq("property_id", profile.property_id)
-      .eq("status", "assigned"),
-    supabase
-      .from("tag_batches")
-      .select("id, prefix, quantity, created_at, exported_at")
-      .eq("property_id", profile.property_id)
-      .order("created_at", { ascending: false }),
-  ]);
+  const [{ count: unassignedCount }, { count: assignedCount }, { data: batches }, { data: property }, { data: allTags }] =
+    await Promise.all([
+      supabase
+        .from("tags")
+        .select("*", { count: "exact", head: true })
+        .eq("property_id", profile.property_id)
+        .eq("status", "unassigned"),
+      supabase
+        .from("tags")
+        .select("*", { count: "exact", head: true })
+        .eq("property_id", profile.property_id)
+        .eq("status", "assigned"),
+      supabase
+        .from("tag_batches")
+        .select("id, prefix, quantity, created_at, exported_at")
+        .eq("property_id", profile.property_id)
+        .order("created_at", { ascending: false }),
+      supabase.from("properties").select("domain").eq("id", profile.property_id).maybeSingle(),
+      supabase
+        .from("tags")
+        .select("code, status")
+        .eq("property_id", profile.property_id)
+        .order("code"),
+    ]);
+
+  const baseUrl = property?.domain
+    ? `https://${property.domain}`
+    : process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   return (
     <div>
@@ -90,6 +102,19 @@ export default async function TagsPage() {
 
         <NewBatchForm />
       </div>
+
+      {allTags && allTags.length > 0 && (
+        <div className="mt-10 print:mt-0">
+          <h2 className="font-display text-xl text-stone-900 print:hidden">All tags</h2>
+          <p className="mt-1 text-sm text-stone-500 print:hidden">
+            Every tag for this property, across every batch — scan any of these directly,
+            or use this page to spot-check what&apos;s still available.
+          </p>
+          <div className="mt-4">
+            <ArtworkGrid tags={allTags} baseUrl={baseUrl} printLabel="Print all tags" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

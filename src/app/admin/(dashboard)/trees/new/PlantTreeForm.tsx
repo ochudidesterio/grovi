@@ -9,7 +9,13 @@ const inputClass =
   "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
 const labelClass = "text-sm font-medium text-stone-700";
 
-export function PlantTreeForm({ species }: { species: { id: string; common_name: string }[] }) {
+export function PlantTreeForm({
+  species,
+  initialTagCode,
+}: {
+  species: { id: string; common_name: string }[];
+  initialTagCode?: string;
+}) {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -35,7 +41,7 @@ export function PlantTreeForm({ species }: { species: { id: string; common_name:
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
             <label className={labelClass}>Tag code</label>
-            <TagPicker status="unassigned" />
+            <TagPicker status="unassigned" initialValue={initialTagCode} />
           </div>
           <div>
             <label className={labelClass}>Species</label>

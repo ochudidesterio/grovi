@@ -1,6 +1,6 @@
 import { createClient, getCurrentProfile } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import { ArtworkGrid } from "./ArtworkGrid";
+import { ArtworkGrid } from "@/components/ArtworkGrid";
 import Link from "next/link";
 
 interface Props {
