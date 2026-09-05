@@ -15,6 +15,13 @@ const TIMELINE_LABEL: Record<string, string> = {
   note: "Note",
 };
 
+const TIMELINE_ICON: Record<string, string> = {
+  planting: "🌱",
+  quarterly: "📷",
+  replacement: "🔁",
+  note: "📝",
+};
+
 export default async function AdminTreePage({ params }: Props) {
   const profile = await getCurrentProfile();
   if (!profile?.property_id) notFound();
@@ -66,7 +73,7 @@ export default async function AdminTreePage({ params }: Props) {
     .from("timeline_entries")
     .select("id, type, photo_url, note, captured_at")
     .eq("tree_id", tree.id)
-    .order("captured_at", { ascending: false });
+    .order("captured_at", { ascending: true });
 
   return (
     <div className="lg:max-w-[1500px]">
@@ -138,30 +145,40 @@ export default async function AdminTreePage({ params }: Props) {
         </p>
       )}
 
-      <section className="mt-8">
+      <section className="mx-auto mt-10 max-w-2xl">
         <h2 className="font-display text-xl text-stone-900">Timeline</h2>
-        <ol className="mt-4 flex flex-wrap gap-4">
-          {timeline?.map((entry) => (
-            <li
-              key={entry.id}
-              className="w-full max-w-sm flex-1 rounded-xl border border-stone-200 bg-white p-4 shadow-card"
-            >
-              <p className="text-xs uppercase tracking-wide text-stone-400">
-                {TIMELINE_LABEL[entry.type] ?? entry.type} · {entry.captured_at}
-              </p>
-              {entry.note && <p className="mt-1.5 text-sm text-stone-700">{entry.note}</p>}
-              {entry.photo_url && (
-                <ZoomableImage
-                  src={entry.photo_url}
-                  className="mt-3 aspect-[4/3] w-full rounded-lg object-cover"
-                />
-              )}
-            </li>
-          ))}
-          {(!timeline || timeline.length === 0) && (
-            <p className="text-sm text-stone-400">No timeline entries yet.</p>
-          )}
-        </ol>
+        {!timeline || timeline.length === 0 ? (
+          <p className="mt-4 text-sm text-stone-400">No timeline entries yet.</p>
+        ) : (
+          <ol className="relative mt-6 border-l-2 border-emerald-100 pl-8">
+            {timeline.map((entry) => {
+              const isPlanting = entry.type === "planting";
+              return (
+                <li key={entry.id} className="relative pb-8 last:pb-0">
+                  <span
+                    className={
+                      isPlanting
+                        ? "absolute -left-[51px] flex h-9 w-9 items-center justify-center rounded-full bg-emerald-800 text-sm ring-4 ring-stone-50"
+                        : "absolute -left-[47px] flex h-7 w-7 items-center justify-center rounded-full border-2 border-emerald-300 bg-white text-xs ring-4 ring-stone-50"
+                    }
+                  >
+                    {TIMELINE_ICON[entry.type] ?? "•"}
+                  </span>
+                  <p className="text-xs uppercase tracking-wide text-stone-400">
+                    {TIMELINE_LABEL[entry.type] ?? entry.type} · {entry.captured_at}
+                  </p>
+                  {entry.note && <p className="mt-1.5 text-sm text-stone-700">{entry.note}</p>}
+                  {entry.photo_url && (
+                    <ZoomableImage
+                      src={entry.photo_url}
+                      className="mt-3 aspect-[16/10] w-full rounded-lg object-cover shadow-card"
+                    />
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        )}
       </section>
     </div>
   );

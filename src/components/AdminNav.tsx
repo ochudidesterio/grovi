@@ -20,13 +20,21 @@ export function AdminNav({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
   const pathname = usePathname();
   const links = isSuperAdmin ? [...baseLinks, ...superAdminLinks] : baseLinks;
 
+  // Multiple hrefs can prefix-match the same pathname — e.g. both
+  // "/admin/trees" and "/admin/trees/new" match "/admin/trees/new" — so
+  // picking "any match" independently per link would light up more than
+  // one item at once. Only the most specific (longest) match should win.
+  const matches = links
+    .filter((link) => (link.href === "/admin" ? pathname === "/admin" : pathname.startsWith(link.href)))
+    .map((link) => link.href);
+  const activeHref = matches.length
+    ? matches.reduce((longest, href) => (href.length > longest.length ? href : longest))
+    : null;
+
   return (
     <nav className="space-y-1">
       {links.map((link) => {
-        const active =
-          link.href === "/admin"
-            ? pathname === "/admin"
-            : pathname.startsWith(link.href);
+        const active = link.href === activeHref;
         return (
           <Link
             key={link.href}

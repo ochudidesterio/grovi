@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { plantTree } from "./actions";
 import { LocationCapture } from "@/components/LocationCapture";
 import { TagPicker } from "@/components/TagPicker";
+import { COUNTRIES } from "@/lib/countries";
 
 const inputClass =
   "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
@@ -73,7 +74,14 @@ export function PlantTreeForm({
           </div>
           <div>
             <label className={labelClass}>Guest country</label>
-            <input name="guest_country" className={inputClass} />
+            <select name="guest_country" className={inputClass} defaultValue="">
+              <option value="">Select a country</option>
+              {COUNTRIES.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="mt-4">

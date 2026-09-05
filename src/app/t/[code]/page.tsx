@@ -237,27 +237,35 @@ export default async function TreePage({ params }: Props) {
         )}
       </div>
 
-      <div className="mx-auto mt-14 px-6 lg:max-w-[1500px]">
+      <div className="mx-auto mt-14 max-w-2xl px-6">
         <h2 className="font-display text-2xl text-stone-900">Growth timeline</h2>
-        <ol className="mt-6 flex flex-wrap gap-6">
-          {tree.timeline.map((entry) => (
-            <li
-              key={entry.id}
-              className="w-full max-w-sm flex-1 rounded-xl border border-stone-200 bg-white p-4 shadow-card"
-            >
-              <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-stone-400">
-                <span>{TIMELINE_ICON[entry.type] ?? "•"}</span>
-                {TIMELINE_LABEL[entry.type] ?? entry.type} · {entry.captured_at}
-              </p>
-              {entry.note && <p className="mt-1.5 text-stone-700">{entry.note}</p>}
-              {entry.photo_url && (
-                <ZoomableImage
-                  src={entry.photo_url}
-                  className="mt-3 aspect-[4/3] w-full rounded-xl object-cover"
-                />
-              )}
-            </li>
-          ))}
+        <ol className="relative mt-8 border-l-2 border-emerald-100 pl-8">
+          {tree.timeline.map((entry) => {
+            const isPlanting = entry.type === "planting";
+            return (
+              <li key={entry.id} className="relative pb-10 last:pb-0">
+                <span
+                  className={
+                    isPlanting
+                      ? "absolute -left-[51px] flex h-9 w-9 items-center justify-center rounded-full bg-emerald-800 text-sm ring-4 ring-stone-50"
+                      : "absolute -left-[47px] flex h-7 w-7 items-center justify-center rounded-full border-2 border-emerald-300 bg-white text-xs ring-4 ring-stone-50"
+                  }
+                >
+                  {TIMELINE_ICON[entry.type] ?? "•"}
+                </span>
+                <p className="text-xs uppercase tracking-wide text-stone-400">
+                  {TIMELINE_LABEL[entry.type] ?? entry.type} · {entry.captured_at}
+                </p>
+                {entry.note && <p className="mt-1.5 text-stone-700">{entry.note}</p>}
+                {entry.photo_url && (
+                  <ZoomableImage
+                    src={entry.photo_url}
+                    className="mt-3 aspect-[16/10] w-full rounded-xl object-cover shadow-card"
+                  />
+                )}
+              </li>
+            );
+          })}
         </ol>
       </div>
     </main>
