@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { sendPlantingConfirmationEmail } from "@/lib/email";
 import { redirect } from "next/navigation";
 
 export interface PlantTreeResult {
@@ -111,6 +112,23 @@ export async function plantTree(formData: FormData): Promise<PlantTreeResult> {
     photo_url: photoUrl,
     created_by: user?.id,
   });
+
+  // 6. Confirmation email, best-effort — never blocks the planting itself.
+  if (guestEmail) {
+    const { data: species } = await supabase
+      .from("species")
+      .select("common_name")
+      .eq("id", speciesId)
+      .maybeSingle();
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    await sendPlantingConfirmationEmail({
+      to: guestEmail,
+      guestName: guestName.split(" ")[0],
+      treeCode: tagCode,
+      speciesName: species?.common_name ?? null,
+      publicUrl: `${baseUrl}/t/${tagCode}`,
+    });
+  }
 
   redirect(`/t/${tagCode}`);
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient, getCurrentProfile } from "@/lib/supabase/server";
+import { sendQuarterlyUpdateEmail } from "@/lib/email";
 import { redirect } from "next/navigation";
 
 export interface FollowupResult {
@@ -45,12 +46,14 @@ export async function submitFollowup(formData: FormData): Promise<FollowupResult
 
   const { data: tree, error: treeError } = await supabase
     .from("trees")
-    .select("id, replant_count")
+    .select("id, replant_count, species(common_name), guests(email, display_name)")
     .eq("tag_id", tag.id)
     .single();
   if (treeError || !tree) {
     return { error: "Couldn't find the tree record for this tag. Please try again." };
   }
+  const treeSpecies = Array.isArray(tree.species) ? tree.species[0] : tree.species;
+  const guest = Array.isArray(tree.guests) ? tree.guests[0] : tree.guests;
 
   // Photo upload — same best-effort behavior as planting: a failed upload
   // shouldn't block the rest of the record from being saved.
@@ -73,6 +76,17 @@ export async function submitFollowup(formData: FormData): Promise<FollowupResult
       photo_url: photoUrl,
       note,
     });
+    if (guest?.email) {
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+      await sendQuarterlyUpdateEmail({
+        to: guest.email,
+        guestName: guest.display_name ?? "there",
+        treeCode: tagCode,
+        speciesName: treeSpecies?.common_name ?? null,
+        publicUrl: `${baseUrl}/t/${tagCode}`,
+        photoUrl,
+      });
+    }
   } else if (kind === "mortality") {
     await supabase.from("trees").update({ status: "dead" }).eq("id", tree.id);
     await supabase.from("timeline_entries").insert({

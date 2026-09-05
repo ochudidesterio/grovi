@@ -40,6 +40,44 @@ export default async function AdminDashboard() {
     .order("created_at", { ascending: false })
     .limit(6);
 
+  // "Follow-up photography lapses" mitigation from the doc: surface trees
+  // whose most recent timeline entry (or planting, if nothing since) is
+  // more than a quarter old, instead of relying on staff to remember.
+  const OVERDUE_DAYS = 90;
+  const { data: aliveTrees } = await supabase
+    .from("trees")
+    .select("id, planting_date, tags(code), species(common_name)")
+    .eq("status", "alive");
+
+  const treeIds = (aliveTrees ?? []).map((t) => t.id);
+  const { data: allEntries } = treeIds.length
+    ? await supabase
+        .from("timeline_entries")
+        .select("tree_id, captured_at")
+        .in("tree_id", treeIds)
+    : { data: [] as { tree_id: string; captured_at: string }[] };
+
+  const lastActivityByTree = new Map<string, string>();
+  for (const entry of allEntries ?? []) {
+    const current = lastActivityByTree.get(entry.tree_id);
+    if (!current || entry.captured_at > current) {
+      lastActivityByTree.set(entry.tree_id, entry.captured_at);
+    }
+  }
+
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - OVERDUE_DAYS);
+  const overdueTrees = (aliveTrees ?? [])
+    .map((t) => {
+      const tag = Array.isArray(t.tags) ? t.tags[0] : t.tags;
+      const species = Array.isArray(t.species) ? t.species[0] : t.species;
+      const lastActivity = lastActivityByTree.get(t.id) ?? t.planting_date;
+      return { id: t.id, code: tag?.code, species: species?.common_name, lastActivity };
+    })
+    .filter((t) => t.lastActivity < cutoff.toISOString().slice(0, 10))
+    .sort((a, b) => (a.lastActivity < b.lastActivity ? -1 : 1))
+    .slice(0, 6);
+
   return (
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -63,6 +101,35 @@ export default async function AdminDashboard() {
         <StatCard label="Guests" value={guestCount ?? 0} />
         <StatCard label="Trees lost" value={deadCount ?? 0} />
       </div>
+
+      {overdueTrees.length > 0 && (
+        <div className="mt-10">
+          <h2 className="font-display text-xl text-stone-900">Needs a follow-up</h2>
+          <p className="mt-1 text-sm text-stone-500">
+            No photo in over {OVERDUE_DAYS} days — due for a quarterly visit.
+          </p>
+          <div className="mt-4 overflow-hidden rounded-2xl border border-amber-200 bg-amber-50 shadow-card">
+            <ul className="divide-y divide-amber-100">
+              {overdueTrees.map((t) => (
+                <li key={t.id}>
+                  <Link
+                    href={`/admin/trees/${t.code}/follow-up`}
+                    className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-amber-100/60"
+                  >
+                    <div>
+                      <p className="text-sm font-medium text-stone-800">
+                        {t.code} · {t.species ?? "Unknown species"}
+                      </p>
+                      <p className="text-xs text-stone-500">Last activity {t.lastActivity}</p>
+                    </div>
+                    <span className="text-sm text-amber-800">Log follow-up →</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       <div className="mt-10">
         <div className="flex items-center justify-between">

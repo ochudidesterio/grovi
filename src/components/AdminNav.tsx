@@ -7,6 +7,7 @@ const baseLinks = [
   { href: "/admin", label: "Dashboard", icon: "◧" },
   { href: "/admin/trees", label: "Trees", icon: "🌳" },
   { href: "/admin/trees/new", label: "Plant a tree", icon: "＋" },
+  { href: "/admin/species", label: "Species", icon: "🌿" },
   { href: "/admin/tags", label: "Tags", icon: "🏷️" },
 ];
 
