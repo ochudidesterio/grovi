@@ -2,6 +2,7 @@ import { createClient, getCurrentProfile } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { TreeStatusBadge } from "@/components/Badge";
 import { ZoomableImage } from "@/components/ZoomableImage";
+import { TreePinsMap } from "@/components/map";
 import Link from "next/link";
 
 interface Props {
@@ -36,7 +37,7 @@ export default async function AdminTreePage({ params }: Props) {
       trees (
         id, planting_date, gps_lat, gps_lng, status, dedication_message, replant_count,
         species ( common_name ),
-        guests ( display_name, full_name, email, country, consent_full_name, consent_dedication )
+        guests ( id, display_name, full_name, email, country, consent_full_name, consent_dedication )
       )
     `
     )
@@ -74,6 +75,19 @@ export default async function AdminTreePage({ params }: Props) {
     .select("id, type, photo_url, note, captured_at")
     .eq("tree_id", tree.id)
     .order("captured_at", { ascending: true });
+
+  const hasGps = tree.gps_lat != null && tree.gps_lng != null;
+
+  // Guest's cross-property profile link — only exists once they have an email.
+  const { data: shareToken } = guest?.id
+    ? await supabase.rpc("guest_share_token", { p_guest_id: guest.id })
+    : { data: null };
+  const { count: guestTreeCount } = guest?.id
+    ? await supabase
+        .from("trees")
+        .select("*", { count: "exact", head: true })
+        .eq("guest_id", guest.id)
+    : { count: null };
 
   return (
     <div className="lg:max-w-[1500px]">
@@ -131,10 +145,51 @@ export default async function AdminTreePage({ params }: Props) {
         <div>
           <dt className="text-stone-400">GPS</dt>
           <dd className="font-medium text-stone-800">
-            {tree.gps_lat && tree.gps_lng ? `${tree.gps_lat.toFixed(5)}, ${tree.gps_lng.toFixed(5)}` : "—"}
+            {hasGps ? `${tree.gps_lat.toFixed(5)}, ${tree.gps_lng.toFixed(5)}` : "—"}{" "}
+            <Link
+              href={`/admin/trees/${tag.code}/location`}
+              className="text-sm font-normal text-emerald-800 hover:underline"
+            >
+              {hasGps ? "Adjust" : "Set location"}
+            </Link>
+          </dd>
+        </div>
+        <div>
+          <dt className="text-stone-400">Trees by this guest here</dt>
+          <dd className="font-medium text-stone-800">{guestTreeCount ?? "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-stone-400">Guest profile</dt>
+          <dd className="font-medium text-stone-800">
+            {shareToken ? (
+              <Link href={`/g/${shareToken}`} target="_blank" className="text-emerald-800 hover:underline">
+                Shared map ↗
+              </Link>
+            ) : (
+              <span className="font-normal text-stone-400">Needs a guest email</span>
+            )}
           </dd>
         </div>
       </dl>
+
+      {hasGps && (
+        <div className="mt-4 h-56 overflow-hidden rounded-2xl border border-stone-200 shadow-card sm:h-72">
+          <TreePinsMap
+            satellite
+            className="h-full w-full"
+            pins={[
+              {
+                code: tag.code,
+                lat: tree.gps_lat,
+                lng: tree.gps_lng,
+                title: species?.common_name ?? "A tree",
+                subtitle: tag.code,
+                href: `/t/${tag.code}`,
+              },
+            ]}
+          />
+        </div>
+      )}
 
       {tree.dedication_message && (
         <p className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50/60 px-5 py-4 text-sm italic text-emerald-950">

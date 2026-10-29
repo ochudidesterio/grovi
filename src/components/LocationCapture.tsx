@@ -25,9 +25,12 @@ const READINGS = 3;
 export function LocationCapture({
   latName = "lat",
   lngName = "lng",
+  onCapture,
 }: {
   latName?: string;
   lngName?: string;
+  /** When set, the parent owns the coordinates (e.g. a map pin) and no hidden inputs render. */
+  onCapture?: (lat: number, lng: number) => void;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [lat, setLat] = useState<number | null>(null);
@@ -67,12 +70,17 @@ export function LocationCapture({
     setLat(avgLat);
     setLng(avgLng);
     setStatus("done");
+    onCapture?.(avgLat, avgLng);
   }
 
   return (
     <div>
-      <input type="hidden" name={latName} value={lat ?? ""} />
-      <input type="hidden" name={lngName} value={lng ?? ""} />
+      {!onCapture && (
+        <>
+          <input type="hidden" name={latName} value={lat ?? ""} />
+          <input type="hidden" name={lngName} value={lng ?? ""} />
+        </>
+      )}
 
       <button
         type="button"

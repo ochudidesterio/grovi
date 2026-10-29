@@ -86,9 +86,9 @@ export function PlantTreeForm({
         </div>
         <div className="mt-4">
           <label className={labelClass}>Guest email</label>
-          <input name="guest_email" type="email" placeholder="Optional — for growth update emails" className={inputClass} />
+          <input name="guest_email" type="email" placeholder="Optional — for growth updates and their shared map" className={inputClass} />
           <p className="mt-1 text-xs text-stone-400">
-            Used to send the guest photo updates as their tree grows. Never shown publicly.
+            Used to send photo updates and link a returning guest's trees together. Never shown publicly.
           </p>
         </div>
         <div className="mt-4">

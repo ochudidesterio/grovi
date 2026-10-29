@@ -50,20 +50,53 @@ export async function plantTree(formData: FormData): Promise<PlantTreeResult> {
     return { error: `Tag "${tagCode}" is already assigned to a tree.` };
   }
 
-  // 2. Create the guest record
-  const { data: guest, error: guestError } = await supabase
-    .from("guests")
-    .insert({
-      property_id: profile.property_id,
-      full_name: guestName,
-      display_name: guestName.split(" ")[0], // default: first name only
-      email: guestEmail || null,
-      country: guestCountry,
-      consent_full_name: consentFullName,
-      consent_dedication: consentDedication,
-    })
-    .select("id")
-    .single();
+  // 2. Resolve the guest. Same email at the same property = the same
+  // guest (one row, many trees); the planter row links them to their trees
+  // at other properties for the shared /g/[token] profile. No email = no way
+  // to recognize them again, so that's always a fresh guest row.
+  const normalizedEmail = guestEmail?.trim().toLowerCase() || null;
+  const guestFields = {
+    full_name: guestName,
+    display_name: guestName.split(" ")[0], // default: first name only
+    country: guestCountry,
+    // Consent given today is the guest's latest word — it applies to their
+    // earlier trees here too, since consent lives on the guest, not the tree.
+    consent_full_name: consentFullName,
+    consent_dedication: consentDedication,
+  };
+
+  let planter: { id: string; share_token: string } | null = null;
+  if (normalizedEmail) {
+    const { data } = await supabase.rpc("ensure_planter", { p_email: normalizedEmail }).single();
+    planter = (data as { id: string; share_token: string } | null) ?? null;
+  }
+
+  const { data: existingGuest } = normalizedEmail
+    ? await supabase
+        .from("guests")
+        .select("id")
+        .eq("property_id", profile.property_id)
+        .eq("email", normalizedEmail)
+        .maybeSingle()
+    : { data: null };
+
+  const { data: guest, error: guestError } = existingGuest
+    ? await supabase
+        .from("guests")
+        .update({ ...guestFields, planter_id: planter?.id ?? null })
+        .eq("id", existingGuest.id)
+        .select("id")
+        .single()
+    : await supabase
+        .from("guests")
+        .insert({
+          ...guestFields,
+          property_id: profile.property_id,
+          email: normalizedEmail,
+          planter_id: planter?.id ?? null,
+        })
+        .select("id")
+        .single();
   if (guestError || !guest) {
     return { error: "Couldn't save the guest record. Please try again." };
   }
@@ -114,7 +147,7 @@ export async function plantTree(formData: FormData): Promise<PlantTreeResult> {
   });
 
   // 6. Confirmation email, best-effort — never blocks the planting itself.
-  if (guestEmail) {
+  if (normalizedEmail) {
     const { data: species } = await supabase
       .from("species")
       .select("common_name")
@@ -122,11 +155,12 @@ export async function plantTree(formData: FormData): Promise<PlantTreeResult> {
       .maybeSingle();
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     await sendPlantingConfirmationEmail({
-      to: guestEmail,
+      to: normalizedEmail,
       guestName: guestName.split(" ")[0],
       treeCode: tagCode,
       speciesName: species?.common_name ?? null,
       publicUrl: `${baseUrl}/t/${tagCode}`,
+      profileUrl: planter ? `${baseUrl}/g/${planter.share_token}` : null,
     });
   }
 

@@ -22,12 +22,14 @@ export async function sendPlantingConfirmationEmail({
   treeCode,
   speciesName,
   publicUrl,
+  profileUrl,
 }: {
   to: string;
   guestName: string;
   treeCode: string;
   speciesName: string | null;
   publicUrl: string;
+  profileUrl: string | null;
 }) {
   const client = getClient();
   if (!client) {
@@ -44,6 +46,7 @@ export async function sendPlantingConfirmationEmail({
         <p>Your ${speciesName ?? "tree"} has just been planted and given its own page —
         you can watch it grow over time.</p>
         <p><a href="${publicUrl}">${publicUrl}</a></p>
+        ${profileUrl ? `<p>Every tree you've planted with us, on one map: <a href="${profileUrl}">${profileUrl}</a></p>` : ""}
         <p style="color:#78716c;font-size:13px;">Tag: ${treeCode}</p>
       `,
     });
