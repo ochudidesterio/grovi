@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
+  "mt-1.5 w-full rounded-lg border border-sand-300 px-3.5 py-2.5 text-sm placeholder:text-sand-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700";
 
 /**
  * Same idea as the mobile app's TagPickerField: browse currently-unassigned
@@ -61,12 +61,12 @@ export function TagPicker({
       />
 
       {tags !== null && (
-        <p className="mt-1 text-xs text-stone-400">
+        <p className="mt-1 text-xs text-sand-400">
           {tags.length} unassigned tag{tags.length === 1 ? "" : "s"} available
           {tags.length === 0 && (
             <>
               {" — "}
-              <a href="/admin/tags" className="text-emerald-800 underline">
+              <a href="/admin/tags" className="text-brand-800 underline">
                 generate a batch
               </a>
             </>
@@ -75,7 +75,7 @@ export function TagPicker({
       )}
 
       {open && filtered.length > 0 && (
-        <ul className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-stone-200 bg-white py-1 shadow-lift">
+        <ul className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-sand-200 bg-white py-1 shadow-lift">
           {filtered.slice(0, 50).map((code) => (
             <li key={code}>
               <button
@@ -84,7 +84,7 @@ export function TagPicker({
                   setQuery(code);
                   setOpen(false);
                 }}
-                className="block w-full px-3.5 py-2 text-left text-sm font-mono text-stone-700 hover:bg-emerald-50"
+                className="block w-full px-3.5 py-2 text-left text-sm font-mono text-sand-700 hover:bg-brand-50"
               >
                 {code}
               </button>

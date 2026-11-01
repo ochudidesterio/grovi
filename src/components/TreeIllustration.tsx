@@ -1,3 +1,5 @@
+import { BRAND } from "@/lib/brand";
+
 /**
  * Line-drawn branch mark — no fill, a single delicate branch structure with
  * bud-marks at each tip. Chosen over a filled/blobbed canopy after a design
@@ -6,7 +8,7 @@
  */
 export function TreeIllustration({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 300 400" className={className} role="img" aria-label="Grovi">
+    <svg viewBox="0 0 300 400" className={className} role="img" aria-label={BRAND.name}>
       <g fill="none" stroke="#cfead9" strokeWidth="1.6" strokeLinecap="round">
         <path d="M150 380 L150 210" strokeWidth="4" stroke="#e7d9b8" />
         <path d="M150 260 C 130 240, 118 210, 122 178" />

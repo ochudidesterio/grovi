@@ -145,14 +145,14 @@ export default async function AdminDashboard() {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl text-stone-900">
+          <h1 className="font-display text-3xl text-sand-900">
             {property?.name ?? "Dashboard"}
           </h1>
-          <p className="mt-1 text-stone-500">A living record of every tree planted here.</p>
+          <p className="mt-1 text-sand-500">A living record of every tree planted here.</p>
         </div>
         <Link
           href="/admin/trees/new"
-          className="w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-emerald-900 sm:w-auto"
+          className="w-full rounded-lg bg-brand-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-brand-900 sm:w-auto"
         >
           + Plant a tree
         </Link>
@@ -167,8 +167,8 @@ export default async function AdminDashboard() {
 
       {overdueTrees.length > 0 && (
         <div className="mt-10">
-          <h2 className="font-display text-xl text-stone-900">Needs a follow-up</h2>
-          <p className="mt-1 text-sm text-stone-500">
+          <h2 className="font-display text-xl text-sand-900">Needs a follow-up</h2>
+          <p className="mt-1 text-sm text-sand-500">
             No photo in over {OVERDUE_DAYS} days — due for a quarterly visit.
           </p>
           <div className="mt-4 overflow-hidden rounded-2xl border border-amber-200 bg-amber-50 shadow-card">
@@ -180,10 +180,10 @@ export default async function AdminDashboard() {
                     className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-amber-100/60"
                   >
                     <div>
-                      <p className="text-sm font-medium text-stone-800">
+                      <p className="text-sm font-medium text-sand-800">
                         {t.code} · {t.species ?? "Unknown species"}
                       </p>
-                      <p className="text-xs text-stone-500">Last activity {t.lastActivity}</p>
+                      <p className="text-xs text-sand-500">Last activity {t.lastActivity}</p>
                     </div>
                     <span className="text-sm text-amber-800">Log follow-up →</span>
                   </Link>
@@ -195,36 +195,36 @@ export default async function AdminDashboard() {
       )}
 
       <div className="mt-10">
-        <h2 className="font-display text-xl text-stone-900">Trees &amp; planters</h2>
-        <p className="mt-1 text-sm text-stone-500">
+        <h2 className="font-display text-xl text-sand-900">Trees &amp; planters</h2>
+        <p className="mt-1 text-sm text-sand-500">
           {plantings?.length ?? 0} trees planted by {planterCount}{" "}
           {planterCount === 1 ? "person" : "people"}
           {returningCount > 0 ? ` — ${returningCount} came back to plant more than one` : ""}.
         </p>
         <div className="mt-4 grid gap-4 lg:grid-cols-5">
-          <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-card lg:col-span-3">
-            <h3 className="text-sm font-medium text-stone-700">Trees planted per month</h3>
-            <p className="text-xs text-stone-400">Last 12 months · hover for people</p>
+          <div className="rounded-2xl border border-sand-200 bg-white p-5 shadow-card lg:col-span-3">
+            <h3 className="text-sm font-medium text-sand-700">Trees planted per month</h3>
+            <p className="text-xs text-sand-400">Last 12 months · hover for people</p>
             <div className="mt-4">
               <BarChart data={monthly} valueLabel="trees" />
             </div>
           </div>
-          <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-card lg:col-span-2">
-            <h3 className="text-sm font-medium text-stone-700">Planters by trees planted</h3>
-            <p className="text-xs text-stone-400">How many people planted 1, 2, 3… trees</p>
+          <div className="rounded-2xl border border-sand-200 bg-white p-5 shadow-card lg:col-span-2">
+            <h3 className="text-sm font-medium text-sand-700">Planters by trees planted</h3>
+            <p className="text-xs text-sand-400">How many people planted 1, 2, 3… trees</p>
             <div className="mt-4">
               <BarChart data={distribution} valueLabel="planters" showValues />
             </div>
           </div>
         </div>
         {topPlanters.length > 0 && (
-          <div className="mt-4 rounded-2xl border border-stone-200 bg-white p-5 shadow-card">
-            <h3 className="text-sm font-medium text-stone-700">Returning planters</h3>
-            <ul className="mt-3 divide-y divide-stone-100">
+          <div className="mt-4 rounded-2xl border border-sand-200 bg-white p-5 shadow-card">
+            <h3 className="text-sm font-medium text-sand-700">Returning planters</h3>
+            <ul className="mt-3 divide-y divide-sand-100">
               {topPlanters.map((g, i) => (
                 <li key={i} className="flex items-center justify-between py-2 text-sm">
-                  <span className="text-stone-800">{g.name}</span>
-                  <span className="tabular-nums text-stone-500">{g.count} trees</span>
+                  <span className="text-sand-800">{g.name}</span>
+                  <span className="tabular-nums text-sand-500">{g.count} trees</span>
                 </li>
               ))}
             </ul>
@@ -234,23 +234,23 @@ export default async function AdminDashboard() {
 
       {missingGps.length > 0 && (
         <div className="mt-10">
-          <h2 className="font-display text-xl text-stone-900">Missing a location</h2>
-          <p className="mt-1 text-sm text-stone-500">
+          <h2 className="font-display text-xl text-sand-900">Missing a location</h2>
+          <p className="mt-1 text-sm text-sand-500">
             {missingGps.length} {missingGps.length === 1 ? "tree has" : "trees have"} no GPS yet — they
             won&apos;t show on any map until one is set.
           </p>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card">
-            <ul className="divide-y divide-stone-100">
+          <div className="mt-4 overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-card">
+            <ul className="divide-y divide-sand-100">
               {missingGps.slice(0, 6).map((t) => (
                 <li key={t.code}>
                   <Link
                     href={`/admin/trees/${t.code}/location`}
-                    className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-stone-50"
+                    className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-sand-50"
                   >
-                    <p className="text-sm font-medium text-stone-800">
+                    <p className="text-sm font-medium text-sand-800">
                       {t.code} · {t.species ?? "Unknown species"}
                     </p>
-                    <span className="text-sm text-emerald-800">Set location →</span>
+                    <span className="text-sm text-brand-800">Set location →</span>
                   </Link>
                 </li>
               ))}
@@ -261,23 +261,23 @@ export default async function AdminDashboard() {
 
       <div className="mt-10">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-xl text-stone-900">Recently planted</h2>
-          <Link href="/admin/trees" className="text-sm font-medium text-emerald-800 hover:underline">
+          <h2 className="font-display text-xl text-sand-900">Recently planted</h2>
+          <Link href="/admin/trees" className="text-sm font-medium text-brand-800 hover:underline">
             View all trees →
           </Link>
         </div>
 
-        <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card">
+        <div className="mt-4 overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-card">
           {!recentTrees || recentTrees.length === 0 ? (
-            <p className="p-6 text-sm text-stone-500">
+            <p className="p-6 text-sm text-sand-500">
               No trees planted yet. Start with{" "}
-              <Link href="/admin/trees/new" className="text-emerald-800 underline">
+              <Link href="/admin/trees/new" className="text-brand-800 underline">
                 planting your first one
               </Link>
               .
             </p>
           ) : (
-            <ul className="divide-y divide-stone-100">
+            <ul className="divide-y divide-sand-100">
               {recentTrees.map((t) => {
                 const tag = Array.isArray(t.tags) ? t.tags[0] : t.tags;
                 const species = Array.isArray(t.species) ? t.species[0] : t.species;
@@ -286,13 +286,13 @@ export default async function AdminDashboard() {
                   <li key={t.id}>
                     <Link
                       href={`/admin/trees/${tag?.code}`}
-                      className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-stone-50"
+                      className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-sand-50"
                     >
                       <div>
-                        <p className="text-sm font-medium text-stone-800">
+                        <p className="text-sm font-medium text-sand-800">
                           {tag?.code} · {species?.common_name ?? "Unknown species"}
                         </p>
-                        <p className="text-xs text-stone-500">
+                        <p className="text-xs text-sand-500">
                           Planted by {guest?.display_name ?? "a guest"} on {t.planting_date}
                         </p>
                       </div>

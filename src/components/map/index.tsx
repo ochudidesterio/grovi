@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 // these wrappers are what pages import.
 
 function MapLoading({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-stone-100 ${className ?? ""}`} />;
+  return <div className={`animate-pulse bg-sand-100 ${className ?? ""}`} />;
 }
 
 export const TreePinsMap = dynamic(
@@ -19,4 +19,9 @@ export const PinPicker = dynamic(
   { ssr: false, loading: () => <MapLoading className="h-full w-full" /> }
 );
 
-export type { LatLng, TreePin } from "./types";
+export const ZoneEditor = dynamic(
+  () => import("./LeafletMaps").then((m) => m.ZoneEditor),
+  { ssr: false, loading: () => <MapLoading className="h-full w-full" /> }
+);
+
+export type { LatLng, MapZone, TreePin } from "./types";

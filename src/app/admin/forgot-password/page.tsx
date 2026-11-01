@@ -3,6 +3,8 @@
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import Link from "next/link";
+import { BrandMark } from "@/components/BrandMark";
+import { BackToSite } from "@/components/BackToSite";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -27,35 +29,36 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-stone-50 px-6">
+    <main className="relative flex min-h-screen items-center justify-center bg-sand-50 px-6">
+      <BackToSite />
       <div className="w-full max-w-sm">
         <div className="text-center">
-          <p className="font-display text-2xl text-emerald-900">Grovi</p>
-          <h1 className="mt-2 text-lg font-medium text-stone-800">Reset your password</h1>
+          <BrandMark stacked className="mx-auto h-20" />
+          <h1 className="mt-2 text-lg font-medium text-sand-800">Reset your password</h1>
         </div>
 
         {sent ? (
-          <div className="mt-6 rounded-2xl border border-stone-200 bg-white p-6 text-center shadow-card">
-            <p className="text-sm text-stone-600">
+          <div className="mt-6 rounded-2xl border border-sand-200 bg-white p-6 text-center shadow-card">
+            <p className="text-sm text-sand-600">
               If an account exists for <strong>{email}</strong>, a reset link is on its way — check
               your inbox.
             </p>
-            <Link href="/admin/login" className="mt-4 inline-block text-sm text-emerald-800 hover:underline">
+            <Link href="/admin/login" className="mt-4 inline-block text-sm text-brand-800 hover:underline">
               ← Back to sign in
             </Link>
           </div>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="mt-6 space-y-4 rounded-2xl border border-stone-200 bg-white p-6 shadow-card"
+            className="mt-6 space-y-4 rounded-2xl border border-sand-200 bg-white p-6 shadow-card"
           >
             <div>
-              <label className="text-sm font-medium text-stone-700">Email</label>
+              <label className="text-sm font-medium text-sand-700">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700"
+                className="mt-1.5 w-full rounded-lg border border-sand-300 px-3.5 py-2.5 text-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700"
                 required
               />
             </div>
@@ -65,11 +68,11 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-emerald-800 py-2.5 text-sm font-medium text-white hover:bg-emerald-900 disabled:opacity-60"
+              className="w-full rounded-lg bg-brand-800 py-2.5 text-sm font-medium text-white hover:bg-brand-900 disabled:opacity-60"
             >
               {loading ? "Sending…" : "Send reset link"}
             </button>
-            <Link href="/admin/login" className="block text-center text-sm text-stone-500 hover:text-stone-800">
+            <Link href="/admin/login" className="block text-center text-sm text-sand-500 hover:text-sand-800">
               ← Back to sign in
             </Link>
           </form>

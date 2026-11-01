@@ -15,13 +15,13 @@ export function ArtworkGrid({
   return (
     <div>
       <div className="mb-6 flex flex-col gap-3 print:hidden sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-stone-500">
+        <p className="text-sm text-sand-500">
           {tags.length} tags — each QR encodes that tree&apos;s public page. Print this page
           (or save as PDF) to send to the engraving supplier.
         </p>
         <button
           onClick={() => window.print()}
-          className="w-full shrink-0 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-900 sm:w-auto"
+          className="w-full shrink-0 rounded-lg bg-brand-800 px-4 py-2 text-sm font-medium text-white hover:bg-brand-900 sm:w-auto"
         >
           {printLabel}
         </button>
@@ -31,10 +31,10 @@ export function ArtworkGrid({
         {tags.map((t) => (
           <div
             key={t.code}
-            className="flex flex-col items-center gap-2 rounded-xl border border-stone-200 p-4 print:break-inside-avoid print:border-stone-400"
+            className="flex flex-col items-center gap-2 rounded-xl border border-sand-200 p-4 print:break-inside-avoid print:border-sand-400"
           >
             <QRCodeSVG value={`${baseUrl}/t/${t.code}`} size={120} />
-            <p className="font-mono text-sm font-medium text-stone-800">{t.code}</p>
+            <p className="font-mono text-sm font-medium text-sand-800">{t.code}</p>
             {t.status && (
               <div className="print:hidden">
                 <TagStatusBadge status={t.status} />

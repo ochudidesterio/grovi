@@ -22,8 +22,8 @@ export function SignOutButton({ full = false }: { full?: boolean }) {
       disabled={loading}
       className={
         full
-          ? "w-full rounded-lg border border-stone-300 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-50"
-          : "text-sm text-stone-500 hover:text-stone-800 disabled:opacity-50"
+          ? "w-full rounded-lg border border-sand-300 py-2.5 text-sm font-medium text-sand-700 hover:bg-sand-50 disabled:opacity-50"
+          : "text-sm text-sand-500 hover:text-sand-800 disabled:opacity-50"
       }
     >
       {loading ? "Signing out…" : "Sign out"}

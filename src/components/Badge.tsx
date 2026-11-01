@@ -1,6 +1,6 @@
 const variants = {
-  emerald: "bg-emerald-100 text-emerald-800",
-  stone: "bg-stone-100 text-stone-700",
+  emerald: "bg-brand-100 text-brand-800",
+  stone: "bg-sand-100 text-sand-700",
   amber: "bg-amber-100 text-amber-800",
   red: "bg-red-100 text-red-700",
 } as const;

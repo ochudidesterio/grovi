@@ -3,6 +3,7 @@ import { AdminNav } from "@/components/AdminNav";
 import { SignOutButton } from "@/components/SignOutButton";
 import { MobileHeader } from "@/components/MobileHeader";
 import Link from "next/link";
+import { BrandMark } from "@/components/BrandMark";
 
 export default async function DashboardLayout({
   children,
@@ -26,7 +27,7 @@ export default async function DashboardLayout({
   const displayName = profile?.full_name ?? user?.email ?? "";
 
   return (
-    <div className="min-h-screen bg-stone-50 lg:flex">
+    <div className="min-h-screen bg-sand-50 lg:flex">
       <MobileHeader
         isSuperAdmin={isSuperAdmin}
         propertyName={property?.name ?? "Admin"}
@@ -34,19 +35,19 @@ export default async function DashboardLayout({
         role={profile?.role?.replace("_", " ") ?? "staff"}
       />
 
-      <aside className="hidden border-stone-200 bg-white lg:block lg:w-64 lg:shrink-0 lg:border-r lg:px-5 lg:py-8">
-        <Link href="/admin" className="font-display text-xl text-emerald-900">
-          Grovi
+      <aside className="hidden border-sand-200 bg-white lg:block lg:w-64 lg:shrink-0 lg:border-r lg:px-5 lg:py-8">
+        <Link href="/admin" className="text-[13px]">
+          <BrandMark />
         </Link>
-        <p className="mt-1 text-xs text-stone-400">{property?.name ?? "Admin"}</p>
+        <p className="mt-1 text-xs text-sand-400">{property?.name ?? "Admin"}</p>
 
         <div className="mt-6">
           <AdminNav isSuperAdmin={isSuperAdmin} />
         </div>
 
-        <div className="mt-8 border-t border-stone-100 pt-4">
-          <p className="text-sm font-medium text-stone-700">{displayName}</p>
-          <p className="text-xs capitalize text-stone-400">{profile?.role?.replace("_", " ")}</p>
+        <div className="mt-8 border-t border-sand-100 pt-4">
+          <p className="text-sm font-medium text-sand-700">{displayName}</p>
+          <p className="text-xs capitalize text-sand-400">{profile?.role?.replace("_", " ")}</p>
           <div className="mt-2">
             <SignOutButton />
           </div>

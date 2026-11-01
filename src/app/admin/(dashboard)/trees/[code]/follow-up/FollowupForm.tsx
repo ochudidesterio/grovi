@@ -4,8 +4,8 @@ import { useState, useTransition } from "react";
 import { submitFollowup } from "./actions";
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
-const labelClass = "text-sm font-medium text-stone-700";
+  "mt-1.5 w-full rounded-lg border border-sand-300 px-3.5 py-2.5 text-sm placeholder:text-sand-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700";
+const labelClass = "text-sm font-medium text-sand-700";
 
 type Kind = "quarterly" | "mortality" | "replacement";
 
@@ -63,9 +63,9 @@ export function FollowupForm({
 
       {error && <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
 
-      <section className="rounded-2xl border border-stone-200 bg-white p-6 shadow-card">
+      <section className="rounded-2xl border border-sand-200 bg-white p-6 shadow-card">
         <label className={labelClass}>What happened?</label>
-        <div className="mt-1.5 flex flex-col gap-2 rounded-lg border border-stone-300 p-1 sm:flex-row">
+        <div className="mt-1.5 flex flex-col gap-2 rounded-lg border border-sand-300 p-1 sm:flex-row">
           {(Object.keys(KIND_META) as Kind[]).map((k) => {
             const disabled = k === "mortality" && currentStatus === "dead";
             return (
@@ -77,10 +77,10 @@ export function FollowupForm({
                 title={disabled ? "Already marked dead — record a replacement instead" : undefined}
                 className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   kind === k
-                    ? "bg-emerald-800 text-white"
+                    ? "bg-brand-800 text-white"
                     : disabled
-                      ? "cursor-not-allowed text-stone-300"
-                      : "text-stone-600 hover:bg-stone-100"
+                      ? "cursor-not-allowed text-sand-300"
+                      : "text-sand-600 hover:bg-sand-100"
                 }`}
               >
                 {KIND_META[k].label}
@@ -109,7 +109,7 @@ export function FollowupForm({
               ))}
             </select>
             {currentSpeciesId && (
-              <p className="mt-1 text-xs text-stone-400">Pre-filled with the current species — change it if different.</p>
+              <p className="mt-1 text-xs text-sand-400">Pre-filled with the current species — change it if different.</p>
             )}
           </div>
         )}
@@ -126,7 +126,7 @@ export function FollowupForm({
             type="file"
             accept="image/*"
             capture="environment"
-            className="mt-1.5 w-full rounded-lg border border-dashed border-stone-300 px-3.5 py-3 text-sm text-stone-500 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-emerald-800 hover:file:bg-emerald-100"
+            className="mt-1.5 w-full rounded-lg border border-dashed border-sand-300 px-3.5 py-3 text-sm text-sand-500 file:mr-3 file:rounded-md file:border-0 file:bg-brand-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-brand-800 hover:file:bg-brand-100"
           />
         </div>
       </section>
@@ -135,7 +135,7 @@ export function FollowupForm({
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-lg bg-emerald-800 px-5 py-2.5 text-sm font-medium text-white shadow-card hover:bg-emerald-900 disabled:opacity-60 sm:w-auto"
+          className="w-full rounded-lg bg-brand-800 px-5 py-2.5 text-sm font-medium text-white shadow-card hover:bg-brand-900 disabled:opacity-60 sm:w-auto"
         >
           {isPending ? "Saving…" : "Save"}
         </button>

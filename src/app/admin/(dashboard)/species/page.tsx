@@ -5,8 +5,8 @@ export default async function SpeciesPage() {
   const profile = await getCurrentProfile();
   if (!profile?.property_id) {
     return (
-      <div className="rounded-2xl border border-stone-200 bg-white p-6 shadow-card">
-        <p className="text-sm text-stone-600">Your account isn&apos;t linked to a property yet.</p>
+      <div className="rounded-2xl border border-sand-200 bg-white p-6 shadow-card">
+        <p className="text-sm text-sand-600">Your account isn&apos;t linked to a property yet.</p>
       </div>
     );
   }
@@ -20,34 +20,34 @@ export default async function SpeciesPage() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl text-stone-900">Species</h1>
-      <p className="mt-1 text-stone-500">
+      <h1 className="font-display text-3xl text-sand-900">Species</h1>
+      <p className="mt-1 text-sand-500">
         The species library staff choose from when planting a tree.
       </p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_380px]">
-        <div className="overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-card">
+        <div className="overflow-x-auto rounded-2xl border border-sand-200 bg-white shadow-card">
           <table className="w-full min-w-[480px] text-left text-sm">
             <thead>
-              <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-400">
+              <tr className="border-b border-sand-100 text-xs uppercase tracking-wide text-sand-400">
                 <th className="px-5 py-3 font-medium">Common name</th>
                 <th className="px-5 py-3 font-medium">Local name</th>
                 <th className="px-5 py-3 font-medium">Shared</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-100">
+            <tbody className="divide-y divide-sand-100">
               {species?.map((s) => (
                 <tr key={s.id}>
-                  <td className="px-5 py-3 font-medium text-stone-800">{s.common_name}</td>
-                  <td className="px-5 py-3 text-stone-600">{s.local_name ?? "—"}</td>
-                  <td className="px-5 py-3 text-stone-400">
+                  <td className="px-5 py-3 font-medium text-sand-800">{s.common_name}</td>
+                  <td className="px-5 py-3 text-sand-600">{s.local_name ?? "—"}</td>
+                  <td className="px-5 py-3 text-sand-400">
                     {s.property_id === null ? "Yes" : ""}
                   </td>
                 </tr>
               ))}
               {(!species || species.length === 0) && (
                 <tr>
-                  <td colSpan={3} className="px-5 py-8 text-center text-stone-400">
+                  <td colSpan={3} className="px-5 py-8 text-center text-sand-400">
                     No species yet — add the first one.
                   </td>
                 </tr>

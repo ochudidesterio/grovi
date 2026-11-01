@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { generateTagBatch } from "./actions";
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
+  "mt-1.5 w-full rounded-lg border border-sand-300 px-3.5 py-2.5 text-sm placeholder:text-sand-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700";
 
 export function NewBatchForm() {
   const [error, setError] = useState<string | null>(null);
@@ -32,19 +32,19 @@ export function NewBatchForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-stone-200 bg-white p-6 shadow-card">
-      <h2 className="font-display text-lg text-stone-900">Generate a new batch</h2>
-      <p className="mt-1 text-sm text-stone-500">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-sand-200 bg-white p-6 shadow-card">
+      <h2 className="font-display text-lg text-sand-900">Generate a new batch</h2>
+      <p className="mt-1 text-sm text-sand-500">
         Codes continue automatically from the highest existing number for this prefix —
         no manual bookkeeping, no collisions.
       </p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium text-stone-700">Prefix</label>
+          <label className="text-sm font-medium text-sand-700">Prefix</label>
           <input name="prefix" placeholder="TPK" maxLength={8} className={inputClass} required />
         </div>
         <div>
-          <label className="text-sm font-medium text-stone-700">Quantity</label>
+          <label className="text-sm font-medium text-sand-700">Quantity</label>
           <input name="quantity" type="number" min={1} max={500} defaultValue={10} className={inputClass} required />
         </div>
       </div>
@@ -54,7 +54,7 @@ export function NewBatchForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="mt-4 w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-900 disabled:opacity-60 sm:w-auto"
+        className="mt-4 w-full rounded-lg bg-brand-800 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-900 disabled:opacity-60 sm:w-auto"
       >
         {isPending ? "Generating…" : "Generate batch"}
       </button>

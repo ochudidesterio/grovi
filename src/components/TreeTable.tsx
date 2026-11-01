@@ -54,32 +54,32 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
           placeholder="Search by tag, species, or guest…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full max-w-xs rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700"
+          className="w-full max-w-xs rounded-lg border border-sand-300 px-3 py-2 text-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700"
         />
-        <div className="flex gap-1 rounded-lg border border-stone-300 p-1">
+        <div className="flex gap-1 rounded-lg border border-sand-300 p-1">
           {(["all", "alive", "dead"] as const).map((s) => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`rounded-md px-3 py-1 text-sm capitalize transition-colors ${
                 statusFilter === s
-                  ? "bg-emerald-800 text-white"
-                  : "text-stone-600 hover:bg-stone-100"
+                  ? "bg-brand-800 text-white"
+                  : "text-sand-600 hover:bg-sand-100"
               }`}
             >
               {s}
             </button>
           ))}
         </div>
-        <p className="ml-auto text-sm text-stone-400">
+        <p className="ml-auto text-sm text-sand-400">
           {filtered.length} of {rows.length} trees
         </p>
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-card">
+      <div className="mt-4 overflow-x-auto rounded-2xl border border-sand-200 bg-white shadow-card">
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead>
-            <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-400">
+            <tr className="border-b border-sand-100 text-xs uppercase tracking-wide text-sand-400">
               <th className="px-5 py-3 font-medium">Tag</th>
               <th className="px-5 py-3 font-medium">Species</th>
               <th className="px-5 py-3 font-medium">Planted by</th>
@@ -88,22 +88,22 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
               <th className="px-5 py-3" />
             </tr>
           </thead>
-          <tbody className="divide-y divide-stone-100">
+          <tbody className="divide-y divide-sand-100">
             {pageRows.map((r) => (
               <tr
                 key={r.id}
                 onClick={() => router.push(`/admin/trees/${r.code}`)}
-                className="cursor-pointer hover:bg-stone-50"
+                className="cursor-pointer hover:bg-sand-50"
               >
-                <td className="px-5 py-3 font-medium text-stone-800">{r.code}</td>
-                <td className="px-5 py-3 text-stone-600">{r.species}</td>
-                <td className="px-5 py-3 text-stone-600">{r.guest}</td>
-                <td className="px-5 py-3 text-stone-500">{r.plantingDate}</td>
+                <td className="px-5 py-3 font-medium text-sand-800">{r.code}</td>
+                <td className="px-5 py-3 text-sand-600">{r.species}</td>
+                <td className="px-5 py-3 text-sand-600">{r.guest}</td>
+                <td className="px-5 py-3 text-sand-500">{r.plantingDate}</td>
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-2">
                     <TreeStatusBadge status={r.status} />
                     {r.replantCount > 0 && (
-                      <span className="text-xs text-stone-400">replanted ×{r.replantCount}</span>
+                      <span className="text-xs text-sand-400">replanted ×{r.replantCount}</span>
                     )}
                   </div>
                 </td>
@@ -111,7 +111,7 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
                   <Link
                     href={`/admin/trees/${r.code}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-emerald-800 hover:underline"
+                    className="text-brand-800 hover:underline"
                   >
                     View →
                   </Link>
@@ -120,7 +120,7 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-5 py-8 text-center text-stone-400">
+                <td colSpan={6} className="px-5 py-8 text-center text-sand-400">
                   No trees match your search.
                 </td>
               </tr>
@@ -129,22 +129,22 @@ export function TreeTable({ rows }: { rows: TreeRow[] }) {
         </table>
 
         {pageCount > 1 && (
-          <div className="flex items-center justify-between border-t border-stone-100 px-5 py-3">
-            <p className="text-sm text-stone-400">
+          <div className="flex items-center justify-between border-t border-sand-100 px-5 py-3">
+            <p className="text-sm text-sand-400">
               Page {currentPage} of {pageCount}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+                className="rounded-lg border border-sand-300 px-3 py-1.5 text-sm font-medium text-sand-700 hover:bg-sand-50 disabled:opacity-40"
               >
                 ← Previous
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
                 disabled={currentPage === pageCount}
-                className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+                className="rounded-lg border border-sand-300 px-3 py-1.5 text-sm font-medium text-sand-700 hover:bg-sand-50 disabled:opacity-40"
               >
                 Next →
               </button>

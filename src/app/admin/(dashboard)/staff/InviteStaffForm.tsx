@@ -6,7 +6,7 @@ import { createStaff } from "./actions";
 import { PasswordInput } from "@/components/PasswordInput";
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
+  "mt-1.5 w-full rounded-lg border border-sand-300 px-3.5 py-2.5 text-sm placeholder:text-sand-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700";
 
 export function InviteStaffForm({
   properties,
@@ -45,19 +45,19 @@ export function InviteStaffForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-stone-200 bg-white p-6 shadow-card">
-      <h2 className="font-display text-lg text-stone-900">Create staff account</h2>
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-sand-200 bg-white p-6 shadow-card">
+      <h2 className="font-display text-lg text-sand-900">Create staff account</h2>
       <div className="mt-4 space-y-4">
         <div>
-          <label className="text-sm font-medium text-stone-700">Email</label>
+          <label className="text-sm font-medium text-sand-700">Email</label>
           <input name="email" type="email" placeholder="staff@property.com" className={inputClass} required />
         </div>
         <div>
-          <label className="text-sm font-medium text-stone-700">Full name</label>
+          <label className="text-sm font-medium text-sand-700">Full name</label>
           <input name="full_name" className={inputClass} />
         </div>
         <div>
-          <label className="text-sm font-medium text-stone-700">Property</label>
+          <label className="text-sm font-medium text-sand-700">Property</label>
           <select name="property_id" className={inputClass} required defaultValue="">
             <option value="" disabled>
               Select a property
@@ -70,7 +70,7 @@ export function InviteStaffForm({
           </select>
         </div>
         <div>
-          <label className="text-sm font-medium text-stone-700">Role</label>
+          <label className="text-sm font-medium text-sand-700">Role</label>
           <select name="role" className={inputClass} required defaultValue="staff">
             <option value="staff">Staff</option>
             <option value="property_admin">Property admin</option>
@@ -96,7 +96,7 @@ export function InviteStaffForm({
 
       {error && <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
       {done && (
-        <p className="mt-4 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        <p className="mt-4 rounded-lg bg-brand-50 px-4 py-3 text-sm text-brand-800">
           Account created — share the password with them directly.
         </p>
       )}
@@ -104,7 +104,7 @@ export function InviteStaffForm({
       <button
         type="submit"
         disabled={isPending}
-        className="mt-4 w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-900 disabled:opacity-60 sm:w-auto"
+        className="mt-4 w-full rounded-lg bg-brand-800 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-900 disabled:opacity-60 sm:w-auto"
       >
         {isPending ? "Creating…" : "Create account"}
       </button>

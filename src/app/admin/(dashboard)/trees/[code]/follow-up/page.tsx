@@ -31,11 +31,11 @@ export default async function TreeFollowupPage({ params }: Props) {
 
   return (
     <div className="lg:max-w-[1500px]">
-      <Link href={`/admin/trees/${params.code}`} className="text-sm text-stone-500 hover:text-stone-800">
+      <Link href={`/admin/trees/${params.code}`} className="text-sm text-sand-500 hover:text-sand-800">
         ← Back to {params.code}
       </Link>
-      <h1 className="mt-2 font-display text-3xl text-stone-900">Log a follow-up</h1>
-      <p className="mt-1 text-stone-500">
+      <h1 className="mt-2 font-display text-3xl text-sand-900">Log a follow-up</h1>
+      <p className="mt-1 text-sand-500">
         {params.code} · {species?.common_name ?? "Unknown species"}
       </p>
 

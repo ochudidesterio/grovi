@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-stone-300 px-3.5 py-2.5 pr-10 text-sm placeholder:text-stone-400 focus:border-emerald-700 focus:outline-none focus:ring-1 focus:ring-emerald-700";
+  "mt-1.5 w-full rounded-lg border border-sand-300 px-3.5 py-2.5 pr-10 text-sm placeholder:text-sand-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700";
 
 export function PasswordInput({
   name,
@@ -30,7 +30,7 @@ export function PasswordInput({
   return (
     <div>
       {label && (
-        <label htmlFor={id} className="text-sm font-medium text-stone-700">
+        <label htmlFor={id} className="text-sm font-medium text-sand-700">
           {label}
         </label>
       )}
@@ -51,7 +51,7 @@ export function PasswordInput({
           type="button"
           onClick={() => setVisible((v) => !v)}
           tabIndex={-1}
-          className="absolute inset-y-0 right-0 flex items-center px-3 text-stone-400 hover:text-stone-600"
+          className="absolute inset-y-0 right-0 flex items-center px-3 text-sand-400 hover:text-sand-600"
           aria-label={visible ? "Hide password" : "Show password"}
         >
           {visible ? (

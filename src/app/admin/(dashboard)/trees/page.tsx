@@ -31,12 +31,12 @@ export default async function AdminTreesPage() {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl text-stone-900">Trees</h1>
-          <p className="mt-1 text-stone-500">Every tree planted at this property.</p>
+          <h1 className="font-display text-3xl text-sand-900">Trees</h1>
+          <p className="mt-1 text-sand-500">Every tree planted at this property.</p>
         </div>
         <Link
           href="/admin/trees/new"
-          className="w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-emerald-900 sm:w-auto"
+          className="w-full rounded-lg bg-brand-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-brand-900 sm:w-auto"
         >
           + Plant a tree
         </Link>

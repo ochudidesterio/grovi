@@ -37,7 +37,7 @@ export function BarChart({
   return (
     <div>
       <div className="flex gap-2" aria-hidden="true">
-        <div className="relative w-6 shrink-0 text-right text-[11px] tabular-nums text-stone-400" style={{ height }}>
+        <div className="relative w-6 shrink-0 text-right text-[11px] tabular-nums text-sand-400" style={{ height }}>
           {ticks.map((t, i) => (
             <span
               key={i}
@@ -54,7 +54,7 @@ export function BarChart({
             {ticks.map((_, i) => (
               <div
                 key={i}
-                className={`absolute inset-x-0 border-t ${i === ticks.length - 1 ? "border-stone-300" : "border-stone-100"}`}
+                className={`absolute inset-x-0 border-t ${i === ticks.length - 1 ? "border-sand-300" : "border-sand-100"}`}
                 style={{ top: `${(i / (ticks.length - 1)) * 100}%` }}
               />
             ))}
@@ -62,18 +62,18 @@ export function BarChart({
               {data.map((d) => (
                 <div key={d.label} className="group relative flex h-full flex-1 items-end justify-center">
                   <div
-                    className="w-full max-w-[28px] rounded-t bg-emerald-700 transition-colors group-hover:bg-emerald-900"
+                    className="w-full max-w-[28px] rounded-t bg-brand-700 transition-colors group-hover:bg-brand-900"
                     style={{ height: `${top > 0 ? (d.value / top) * 100 : 0}%` }}
                   />
                   {showValues && d.value > 0 && (
                     <span
-                      className="absolute text-[11px] font-medium tabular-nums text-stone-600"
+                      className="absolute text-[11px] font-medium tabular-nums text-sand-600"
                       style={{ bottom: `calc(${(d.value / top) * 100}% + 4px)` }}
                     >
                       {d.value}
                     </span>
                   )}
-                  <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-stone-900 px-2.5 py-1.5 text-xs text-white shadow-lift group-hover:block">
+                  <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-sand-900 px-2.5 py-1.5 text-xs text-white shadow-lift group-hover:block">
                     <p className="text-white/60">{d.label}</p>
                     <p className="font-medium tabular-nums">
                       {d.value} {valueLabel}
@@ -88,7 +88,7 @@ export function BarChart({
             {data.map((d, i) => (
               <span
                 key={d.label}
-                className="flex-1 truncate text-center text-[11px] text-stone-500"
+                className="flex-1 truncate text-center text-[11px] text-sand-500"
               >
                 {/* Thin out labels on dense charts so they don't collide */}
                 {data.length <= 8 || i % 2 === 0 ? d.label : ""}

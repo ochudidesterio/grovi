@@ -1,10 +1,11 @@
 import "server-only";
 import { Resend } from "resend";
+import { BRAND } from "@/lib/brand";
 
 // Shared Resend test domain for now (no DNS/domain verification needed) —
 // swap for a verified sending domain before this goes in front of real
 // guests; see CLAUDE.md's Phase 2 backlog notes.
-const FROM_ADDRESS = process.env.RESEND_FROM_EMAIL || "Grovi <onboarding@resend.dev>";
+const FROM_ADDRESS = process.env.RESEND_FROM_EMAIL || `${BRAND.shortName} <onboarding@resend.dev>`;
 
 function getClient() {
   const apiKey = process.env.RESEND_API_KEY;

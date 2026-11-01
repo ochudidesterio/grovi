@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { TreePinsMap, type TreePin } from "@/components/map";
+import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { BRAND } from "@/lib/brand";
 
 // New plantings/photos show up immediately — same reasoning as /t/[code].
 export const dynamic = "force-dynamic";
@@ -47,8 +49,8 @@ async function getProfile(token: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const profile = await getProfile(params.token);
-  if (!profile) return { title: "Not found — Grovi" };
-  const title = profile.name ? `${profile.name}'s trees — Grovi` : "A planter's trees — Grovi";
+  if (!profile) return { title: `Not found — ${BRAND.name}` };
+  const title = profile.name ? `${profile.name}'s trees — ${BRAND.name}` : `A planter's trees — ${BRAND.name}`;
   return {
     title,
     description: `${profile.trees.length} ${profile.trees.length === 1 ? "tree" : "trees"} planted, and a record that lasts.`,
@@ -83,11 +85,12 @@ export default async function PlanterProfilePage({ params }: Props) {
   const count = profile.trees.length;
 
   return (
-    <main className="min-h-screen bg-stone-50 pb-20">
-      <header className="bg-emerald-900 px-6 pb-10 pt-14 text-white">
+    <main className="min-h-screen bg-sand-50">
+      <header className="relative bg-brand-900 px-6 pb-16 pt-28 text-white">
+        <SiteHeader overlay />
         <div className="mx-auto max-w-4xl">
-          <p className="text-xs uppercase tracking-wide text-white/60">Grovi</p>
-          <h1 className="mt-2 font-display text-4xl">
+          <p className="text-xs font-medium uppercase tracking-[0.25em] text-white/60">A personal forest</p>
+          <h1 className="mt-3 font-display text-4xl sm:text-5xl">
             {profile.name ? `${profile.name}'s trees` : "Trees planted"}
           </h1>
           <p className="mt-2 text-white/80">
@@ -100,16 +103,16 @@ export default async function PlanterProfilePage({ params }: Props) {
 
       <div className="mx-auto max-w-4xl px-6">
         {pins.length > 0 ? (
-          <div className="-mt-6 h-[360px] overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card sm:h-[440px]">
+          <div className="-mt-6 h-[360px] overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-card sm:h-[440px]">
             <TreePinsMap pins={pins} className="h-full w-full" />
           </div>
         ) : (
-          <p className="mt-6 rounded-xl bg-white px-4 py-3 text-sm text-stone-500 shadow-card">
+          <p className="mt-6 rounded-xl bg-white px-4 py-3 text-sm text-sand-500 shadow-card">
             Map locations for these trees haven&apos;t been recorded yet.
           </p>
         )}
         {pins.length > 0 && pins.length < count && (
-          <p className="mt-2 text-xs text-stone-400">
+          <p className="mt-2 text-xs text-sand-400">
             {count - pins.length} of {count} trees don&apos;t have a map location yet.
           </p>
         )}
@@ -118,7 +121,7 @@ export default async function PlanterProfilePage({ params }: Props) {
           <section key={group.slug} className="mt-12">
             <Link
               href={`/p/${group.slug}`}
-              className="font-display text-2xl text-stone-900 hover:text-emerald-900"
+              className="font-display text-2xl text-sand-900 hover:text-brand-900"
             >
               {group.name}
             </Link>
@@ -127,9 +130,9 @@ export default async function PlanterProfilePage({ params }: Props) {
                 <li key={t.code}>
                   <Link
                     href={`/t/${t.code}`}
-                    className="block overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-card transition hover:shadow-lift"
+                    className="block overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-card transition hover:shadow-lift"
                   >
-                    <div className="aspect-[4/3] bg-emerald-50">
+                    <div className="aspect-[4/3] bg-brand-50">
                       {t.photo_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={t.photo_url} alt="" className="h-full w-full object-cover" />
@@ -138,8 +141,8 @@ export default async function PlanterProfilePage({ params }: Props) {
                       )}
                     </div>
                     <div className="px-4 py-3">
-                      <p className="font-medium text-stone-900">{t.species_name ?? "A tree"}</p>
-                      <p className="text-xs text-stone-500">
+                      <p className="font-medium text-sand-900">{t.species_name ?? "A tree"}</p>
+                      <p className="text-xs text-sand-500">
                         {t.code} · planted {t.planting_date}
                       </p>
                     </div>
@@ -150,6 +153,7 @@ export default async function PlanterProfilePage({ params }: Props) {
           </section>
         ))}
       </div>
+      <SiteFooter />
     </main>
   );
 }

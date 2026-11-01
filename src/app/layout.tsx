@@ -5,12 +5,14 @@ import type { Metadata } from "next";
 // so the build never depends on network access. Same reasoning as the
 // capture app's local font assets.
 import "@fontsource-variable/inter";
-import "@fontsource-variable/fraunces/opsz.css";
+import "@fontsource/italiana/400.css";
+import "@fontsource/nanum-pen-script/400.css";
 import "./globals.css";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Grovi",
-  description: "A tree planted, and a record that lasts.",
+  title: BRAND.name,
+  description: BRAND.tagline,
 };
 
 export default function RootLayout({

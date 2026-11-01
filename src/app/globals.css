@@ -2,16 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Brand theme (Shinta Mani Wild) — the ONLY place colors are defined. Values are space-separated
+ * RGB so Tailwind's opacity modifiers work (bg-brand-800/40). Every page uses
+ * `brand-*` (primary) and `sand-*` (neutrals) classes, never raw hex.
+ *
+ * Keep the same light→dark order; 800/900 are used for primary buttons and
+ * headings, 50/100 for tinted surfaces.
+ */
 :root {
+  /* Sampled from shintamani.com: sage #566f5e (= brand-800, primary
+     buttons/panels) and the warm paper background #f2ede9 (= sand-50). */
+  --brand-50: 245 246 245;
+  --brand-100: 231 235 232;
+  --brand-200: 204 212 207;
+  --brand-300: 174 186 178;
+  --brand-400: 143 160 149;
+  --brand-500: 120 140 126;
+  --brand-600: 103 125 110;
+  --brand-700: 94 118 102;
+  --brand-800: 86 111 94;
+  --brand-900: 65 84 71;
+  --brand-950: 43 56 47;
+
+  --sand-50: 242 237 233;
+  --sand-100: 231 226 222;
+  --sand-200: 218 213 210;
+  --sand-300: 194 190 186;
+  --sand-400: 156 151 148;
+  --sand-500: 123 119 116;
+  --sand-600: 99 96 93;
+  --sand-700: 78 74 72;
+  --sand-800: 58 55 53;
+  --sand-900: 41 38 36;
+  --sand-950: 26 23 21;
+
+  /* Display: Italiana — a thin, high-contrast didone, the closest open
+     font to the brand's condensed display caps. Swap for the licensed
+     brand font if they supply one. Hand: their handwritten-note accent. */
   --font-inter: "Inter Variable", system-ui, sans-serif;
-  --font-fraunces: "Fraunces Variable", Georgia, serif;
+  --font-display: "Italiana", "Didot", Georgia, serif;
+  --font-hand: "Nanum Pen Script", "Comic Sans MS", cursive;
 }
 
 body {
-  color: theme("colors.stone.900");
-  background: theme("colors.stone.50");
+  color: rgb(var(--sand-900));
+  background: rgb(var(--sand-50));
+}
+
+/* The brand sets its display face in spaced capitals ("NATURE UNTAMED"). */
+.font-display {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 400;
 }
 
 ::selection {
-  background: theme("colors.emerald.200");
+  background: rgb(var(--brand-200));
+}
+
+/* Leaflet popups/tooltips in the brand type instead of Leaflet's Helvetica. */
+.leaflet-container {
+  font-family: var(--font-inter);
+}
+.zone-label {
+  background: rgb(255 255 255 / 0.92);
+  border: 0;
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  color: rgb(var(--sand-900));
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+}
+.zone-label::before {
+  display: none;
 }

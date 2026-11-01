@@ -33,10 +33,10 @@ export default async function BatchArtworkPage({ params }: Props) {
 
   return (
     <div>
-      <Link href="/admin/tags" className="text-sm text-stone-500 hover:text-stone-800 print:hidden">
+      <Link href="/admin/tags" className="text-sm text-sand-500 hover:text-sand-800 print:hidden">
         ← Back to tags
       </Link>
-      <h1 className="mt-2 font-display text-3xl text-stone-900 print:mt-0">
+      <h1 className="mt-2 font-display text-3xl text-sand-900 print:mt-0">
         Batch {batch.prefix} — {batch.quantity} tags
       </h1>
 

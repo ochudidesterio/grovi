@@ -38,7 +38,7 @@ export function ZoomableImage({
       />
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/90 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-sand-950/90 p-4"
           onClick={() => setOpen(false)}
         >
           <button

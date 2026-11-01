@@ -86,7 +86,7 @@ export function LocationCapture({
         type="button"
         onClick={capture}
         disabled={status === "locating"}
-        className="flex w-full items-center justify-center gap-2 rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-lg border border-sand-300 px-3.5 py-2.5 text-sm font-medium text-sand-700 hover:bg-sand-50 disabled:opacity-60"
       >
         {status === "locating" ? (
           <>Capturing location… ({progress}/{READINGS})</>
@@ -98,7 +98,7 @@ export function LocationCapture({
       </button>
 
       {status === "done" && lat !== null && lng !== null && (
-        <p className="mt-2 text-xs text-stone-500">
+        <p className="mt-2 text-xs text-sand-500">
           {lat.toFixed(6)}, {lng.toFixed(6)} — averaged from {READINGS} readings
         </p>
       )}

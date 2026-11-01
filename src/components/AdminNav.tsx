@@ -7,6 +7,7 @@ const baseLinks = [
   { href: "/admin", label: "Dashboard", icon: "◧" },
   { href: "/admin/trees", label: "Trees", icon: "🌳" },
   { href: "/admin/trees/new", label: "Plant a tree", icon: "＋" },
+  { href: "/admin/zones", label: "Zones", icon: "🗺️" },
   { href: "/admin/species", label: "Species", icon: "🌿" },
   { href: "/admin/tags", label: "Tags", icon: "🏷️" },
 ];
@@ -41,8 +42,8 @@ export function AdminNav({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
             href={link.href}
             className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
               active
-                ? "bg-emerald-800 text-white"
-                : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                ? "bg-brand-800 text-white"
+                : "text-sand-600 hover:bg-sand-100 hover:text-sand-900"
             }`}
           >
             <span className="w-4 text-center">{link.icon}</span>

@@ -52,10 +52,10 @@ export default async function AdminTreePage({ params }: Props) {
     // Tag exists but nothing's been planted on it yet.
     return (
       <div className="lg:max-w-[1500px]">
-        <Link href="/admin/trees" className="text-sm text-stone-500 hover:text-stone-800">
+        <Link href="/admin/trees" className="text-sm text-sand-500 hover:text-sand-800">
           ← Back to trees
         </Link>
-        <h1 className="mt-2 font-display text-3xl text-stone-900">{tag.code}</h1>
+        <h1 className="mt-2 font-display text-3xl text-sand-900">{tag.code}</h1>
         <p className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
           This tag hasn&apos;t been planted yet.{" "}
           <Link href="/admin/trees/new" className="underline">
@@ -91,89 +91,89 @@ export default async function AdminTreePage({ params }: Props) {
 
   return (
     <div className="lg:max-w-[1500px]">
-      <Link href="/admin/trees" className="text-sm text-stone-500 hover:text-stone-800">
+      <Link href="/admin/trees" className="text-sm text-sand-500 hover:text-sand-800">
         ← Back to trees
       </Link>
 
       <div className="mt-2 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm uppercase tracking-wide text-stone-400">{tag.code}</p>
-          <h1 className="mt-1 font-display text-3xl text-stone-900">
+          <p className="text-sm uppercase tracking-wide text-sand-400">{tag.code}</p>
+          <h1 className="mt-1 font-display text-3xl text-sand-900">
             {species?.common_name ?? "A tree"}
           </h1>
           <div className="mt-2 flex items-center gap-2">
             <TreeStatusBadge status={tree.status} />
             {tree.replant_count > 0 && (
-              <span className="text-xs text-stone-400">replanted ×{tree.replant_count}</span>
+              <span className="text-xs text-sand-400">replanted ×{tree.replant_count}</span>
             )}
           </div>
         </div>
         <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           <Link
             href={`/admin/trees/${tag.code}/follow-up`}
-            className="w-full rounded-lg bg-emerald-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-emerald-900 sm:w-auto"
+            className="w-full rounded-lg bg-brand-800 px-4 py-2.5 text-center text-sm font-medium text-white shadow-card hover:bg-brand-900 sm:w-auto"
           >
             Log follow-up
           </Link>
           <Link
             href={`/t/${tag.code}`}
             target="_blank"
-            className="w-full rounded-lg border border-stone-300 px-4 py-2.5 text-center text-sm font-medium text-stone-700 hover:bg-stone-50 sm:w-auto"
+            className="w-full rounded-lg border border-sand-300 px-4 py-2.5 text-center text-sm font-medium text-sand-700 hover:bg-sand-50 sm:w-auto"
           >
             Public page ↗
           </Link>
         </div>
       </div>
 
-      <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 rounded-2xl border border-stone-200 bg-white p-5 text-sm shadow-card sm:grid-cols-3">
+      <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 rounded-2xl border border-sand-200 bg-white p-5 text-sm shadow-card sm:grid-cols-3">
         <div>
-          <dt className="text-stone-400">Planted by</dt>
-          <dd className="font-medium text-stone-800">{guest?.full_name ?? guest?.display_name ?? "—"}</dd>
+          <dt className="text-sand-400">Planted by</dt>
+          <dd className="font-medium text-sand-800">{guest?.full_name ?? guest?.display_name ?? "—"}</dd>
         </div>
         <div>
-          <dt className="text-stone-400">Guest email</dt>
-          <dd className="font-medium text-stone-800">{guest?.email ?? "—"}</dd>
+          <dt className="text-sand-400">Guest email</dt>
+          <dd className="font-medium text-sand-800">{guest?.email ?? "—"}</dd>
         </div>
         <div>
-          <dt className="text-stone-400">Country</dt>
-          <dd className="font-medium text-stone-800">{guest?.country ?? "—"}</dd>
+          <dt className="text-sand-400">Country</dt>
+          <dd className="font-medium text-sand-800">{guest?.country ?? "—"}</dd>
         </div>
         <div>
-          <dt className="text-stone-400">Planting date</dt>
-          <dd className="font-medium text-stone-800">{tree.planting_date}</dd>
+          <dt className="text-sand-400">Planting date</dt>
+          <dd className="font-medium text-sand-800">{tree.planting_date}</dd>
         </div>
         <div>
-          <dt className="text-stone-400">GPS</dt>
-          <dd className="font-medium text-stone-800">
+          <dt className="text-sand-400">GPS</dt>
+          <dd className="font-medium text-sand-800">
             {hasGps ? `${tree.gps_lat.toFixed(5)}, ${tree.gps_lng.toFixed(5)}` : "—"}{" "}
             <Link
               href={`/admin/trees/${tag.code}/location`}
-              className="text-sm font-normal text-emerald-800 hover:underline"
+              className="text-sm font-normal text-brand-800 hover:underline"
             >
               {hasGps ? "Adjust" : "Set location"}
             </Link>
           </dd>
         </div>
         <div>
-          <dt className="text-stone-400">Trees by this guest here</dt>
-          <dd className="font-medium text-stone-800">{guestTreeCount ?? "—"}</dd>
+          <dt className="text-sand-400">Trees by this guest here</dt>
+          <dd className="font-medium text-sand-800">{guestTreeCount ?? "—"}</dd>
         </div>
         <div>
-          <dt className="text-stone-400">Guest profile</dt>
-          <dd className="font-medium text-stone-800">
+          <dt className="text-sand-400">Guest profile</dt>
+          <dd className="font-medium text-sand-800">
             {shareToken ? (
-              <Link href={`/g/${shareToken}`} target="_blank" className="text-emerald-800 hover:underline">
+              <Link href={`/g/${shareToken}`} target="_blank" className="text-brand-800 hover:underline">
                 Shared map ↗
               </Link>
             ) : (
-              <span className="font-normal text-stone-400">Needs a guest email</span>
+              <span className="font-normal text-sand-400">Needs a guest email</span>
             )}
           </dd>
         </div>
       </dl>
 
       {hasGps && (
-        <div className="mt-4 h-56 overflow-hidden rounded-2xl border border-stone-200 shadow-card sm:h-72">
+        <div className="mt-4 h-56 overflow-hidden rounded-2xl border border-sand-200 shadow-card sm:h-72">
           <TreePinsMap
             satellite
             className="h-full w-full"
@@ -192,20 +192,20 @@ export default async function AdminTreePage({ params }: Props) {
       )}
 
       {tree.dedication_message && (
-        <p className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50/60 px-5 py-4 text-sm italic text-emerald-950">
+        <p className="mt-4 rounded-2xl border border-brand-100 bg-brand-50/60 px-5 py-4 text-sm italic text-brand-950">
           &ldquo;{tree.dedication_message}&rdquo;
           {!guest?.consent_dedication && (
-            <span className="ml-2 not-italic text-emerald-700">(not shown publicly — no consent)</span>
+            <span className="ml-2 not-italic text-brand-700">(not shown publicly — no consent)</span>
           )}
         </p>
       )}
 
       <section className="mx-auto mt-10 max-w-2xl">
-        <h2 className="font-display text-xl text-stone-900">Timeline</h2>
+        <h2 className="font-display text-xl text-sand-900">Timeline</h2>
         {!timeline || timeline.length === 0 ? (
-          <p className="mt-4 text-sm text-stone-400">No timeline entries yet.</p>
+          <p className="mt-4 text-sm text-sand-400">No timeline entries yet.</p>
         ) : (
-          <ol className="relative mt-6 border-l-2 border-emerald-100 pl-8">
+          <ol className="relative mt-6 border-l-2 border-brand-100 pl-8">
             {timeline.map((entry) => {
               const isPlanting = entry.type === "planting";
               return (
@@ -213,16 +213,16 @@ export default async function AdminTreePage({ params }: Props) {
                   <span
                     className={
                       isPlanting
-                        ? "absolute -left-[51px] flex h-9 w-9 items-center justify-center rounded-full bg-emerald-800 text-sm ring-4 ring-stone-50"
-                        : "absolute -left-[47px] flex h-7 w-7 items-center justify-center rounded-full border-2 border-emerald-300 bg-white text-xs ring-4 ring-stone-50"
+                        ? "absolute -left-[51px] flex h-9 w-9 items-center justify-center rounded-full bg-brand-800 text-sm ring-4 ring-sand-50"
+                        : "absolute -left-[47px] flex h-7 w-7 items-center justify-center rounded-full border-2 border-brand-300 bg-white text-xs ring-4 ring-sand-50"
                     }
                   >
                     {TIMELINE_ICON[entry.type] ?? "•"}
                   </span>
-                  <p className="text-xs uppercase tracking-wide text-stone-400">
+                  <p className="text-xs uppercase tracking-wide text-sand-400">
                     {TIMELINE_LABEL[entry.type] ?? entry.type} · {entry.captured_at}
                   </p>
-                  {entry.note && <p className="mt-1.5 text-sm text-stone-700">{entry.note}</p>}
+                  {entry.note && <p className="mt-1.5 text-sm text-sand-700">{entry.note}</p>}
                   {entry.photo_url && (
                     <ZoomableImage
                       src={entry.photo_url}
